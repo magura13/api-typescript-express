@@ -2,12 +2,12 @@ import express from 'express'
 import { DbConnection } from './database/dbConnect'
 import userRoute from './routes/userRoutes'
 
-const app = express()
-const port = 8000
-const dbConnection = DbConnection.getInstance()
+const app = express();
+const port = 8000;
+const dbConnection = DbConnection.getInstance();
 
-app.use('/user', userRoute)
-app.use(express.json())
+app.use('/user', userRoute);
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 dbConnection
