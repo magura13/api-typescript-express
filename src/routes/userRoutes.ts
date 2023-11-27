@@ -2,7 +2,6 @@ import { Router } from 'express'
 import { UserController } from '../controllers/userControllers'
 import bodyParser from 'body-parser'
 import { userService } from '../services/userServices'
-import { query, matchedData, validationResult ,body} from 'express-validator';
 
 
 const router = Router();
