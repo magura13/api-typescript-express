@@ -24,7 +24,6 @@ export class DbConnection {
     }
   }
 
-  // Optional: Disconnect from MongoDB
   public async disconnect(): Promise<void> {
     try {
       await mongoose.disconnect()

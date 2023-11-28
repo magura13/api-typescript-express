@@ -16,7 +16,6 @@ export class UserModel {
     if (!this.instance) {
       await DbConnection.getInstance().connect()
 
-      // Define the schema
       const userSchema = new mongoose.Schema({
         userName: {
           type: String,
