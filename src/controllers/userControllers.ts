@@ -11,6 +11,7 @@ export class UserController {
     this._middleware = new Middleware();
   }
 
+
   public async createUser(req: Request, res: Response): Promise<any> {
 
     try {
