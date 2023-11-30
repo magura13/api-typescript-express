@@ -1,8 +1,8 @@
-import { UserModel } from '../models/userModels'
+import { UserModel } from '../models/userModels';
 
-export class userService {
-  async createUser(newUser: object): Promise<any> {
-    let samuca = await UserModel.getInstance()
-    await samuca.create(newUser)
+export class UserService {
+  async createUser(newUser: { userName: string; password: string; email: string }): Promise<any> {
+    const model = await UserModel.getInstance();
+    return model.create(newUser);
   }
 }
