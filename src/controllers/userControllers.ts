@@ -17,12 +17,12 @@ export class UserController {
     try {
       const middlewareError = this._middleware.validateRequest(req, res);
       if (middlewareError) {
-        res.status(400).json({ ValidationErrors: middlewareError})
+        res.status(400).json({ ValidationErrors: middlewareError })
       } else {
         const newUser = req.body;
         await this.userService.createUser(newUser);
         res.status(200).send('User added successfully');
-      }    
+      }
     } catch (error: any) {
       if (error.code === 11000) {
         return res.status(409).send('User/Email already exists');
