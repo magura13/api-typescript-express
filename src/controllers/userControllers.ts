@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/userServices';
 import { Middleware } from '../middlewares/validationMiddleware';
+import bcrypt from 'bcrypt';
 
 export class UserController {
   private _middleware: Middleware;
@@ -11,7 +12,7 @@ export class UserController {
     this._middleware = new Middleware();
   }
 
-  public async createUser(req: Request, res: Response): Promise<void> {
+  public createUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const middlewareError = this._middleware.validateRequest(req, res);
       if (middlewareError) {
@@ -31,7 +32,37 @@ export class UserController {
     }
   }
 
-  public getValidationRules() {
+  public verifyUser = async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    const result = await this._userService.getUserbyEmail(email);
+    
+    if (result instanceof Error) {
+      return res.status(500).send("Invalid email/password");
+    }
+
+    const passwordIsValid = result ? await bcrypt.compare(password, result.password) : false;
+
+    if (!passwordIsValid) {
+      return res.status(401).send("Invalid email/password"); 
+    } else {
+      return res.status(200).json({ accessToken: "teste.teste.teste" });
+    }
+}
+  public  getAll = async (req: Request, res: Response) => {
+    try {
+      const allUsers = await this._userService.getUsers();
+      return res.status(400).send(allUsers);
+    } catch (error: any) {
+      console.log(error)
+      res.status(500).send('Internal error');
+    }
+  }
+
+  public getValidationRules = () => {
     return this._middleware.getValidationRules;
+  }
+
+  public getSignInValidationRules = () => {
+    return this._middleware.getSignInValidationRules;
   }
 }

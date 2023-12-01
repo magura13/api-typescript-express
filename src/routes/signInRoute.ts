@@ -8,7 +8,7 @@ const userServiceInstance = new UserService();
 const userController = new UserController(userServiceInstance);
 const middleware = new Middleware();
 
-router.post('/', json(),middleware.ensureAuthenticated, userController.getValidationRules(), userController.createUser);
-router.get('/',json(),middleware.ensureAuthenticated,userController.getAll);
+
+router.get('/',json(),userController.verifyUser);
 
 export default router;
