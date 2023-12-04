@@ -49,7 +49,7 @@ export class UserController {
         });
       } else {
         const jwt = new JWTGenerator();
-        const accessToken = jwt.sign({ uid: 5 });
+        const accessToken = jwt.sign({ uid: user?._id });
 
         if (accessToken === 'JWT_SECRET_NOT_FOUND') {
           return res.status(500).json({
