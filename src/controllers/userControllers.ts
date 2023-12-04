@@ -33,13 +33,9 @@ export class UserController {
   }
 
   public verifyUser = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    try{
+      const { email, password } = req.body;
     const result = await this._userService.getUserbyEmail(email);
-    
-    if (result instanceof Error) {
-      return res.status(500).send("Invalid email/password");
-    }
-
     const passwordIsValid = result ? await bcrypt.compare(password, result.password) : false;
 
     if (!passwordIsValid) {
@@ -47,6 +43,10 @@ export class UserController {
     } else {
       return res.status(200).json({ accessToken: "teste.teste.teste" });
     }
+    } catch (error) {
+      return res.status(500).send('Internal error');
+    }
+    
 }
   public  getAll = async (req: Request, res: Response) => {
     try {
