@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UserService } from '../services/userServices';
 import { Middleware } from '../middlewares/validationMiddleware';
 import bcrypt from 'bcrypt';
+import { JWTGenerator } from '../services/JWTService';
 
 export class UserController {
   private _middleware: Middleware;
@@ -12,49 +13,68 @@ export class UserController {
     this._middleware = new Middleware();
   }
 
-  public createUser = async (req: Request, res: Response): Promise<void> => {
+  public createUser = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
     try {
       const middlewareError = this._middleware.validateRequest(req, res);
       if (middlewareError) {
-        res.status(400).json({ ValidationErrors: middlewareError });
-        return;
+        return res.status(400).json({ ValidationErrors: middlewareError });
       }
-
       const newUser = req.body;
       await this._userService.createUser(newUser);
-      res.status(200).send('User added successfully');
+      return res.status(200).json({
+        response: { default: "User added successfully" }
+      });
     } catch (error: any) {
       if (error.code === 11000) {
-        res.status(409).send('User/Email already exists');
-      } else {
-        res.status(500).send('Internal error');
+        return res.status(409).json({
+          response: { default: "User/password/email already exists" }
+        })
+      }
+      else {
+        return res.status(500).json({
+          errors: { default: "Internal server errorr" }
+        })
       }
     }
   }
-
   public verifyUser = async (req: Request, res: Response) => {
-    try{
+    try {
       const { email, password } = req.body;
-    const result = await this._userService.getUserbyEmail(email);
-    const passwordIsValid = result ? await bcrypt.compare(password, result.password) : false;
+      const user = await this._userService.getUserbyEmail(email);
+      const passwordIsValid = user ? await bcrypt.compare(password, user.password) : false;
 
-    if (!passwordIsValid) {
-      return res.status(401).send("Invalid email/password"); 
-    } else {
-      return res.status(200).json({ accessToken: "teste.teste.teste" });
-    }
+      if (!passwordIsValid) {
+        return res.status(401).json({
+          response: { default: "Invalid email/password" }
+        });
+      } else {
+        const jwt = new JWTGenerator();
+        const accessToken = jwt.sign({ uid: 5 });
+
+        if (accessToken === 'JWT_SECRET_NOT_FOUND') {
+          return res.status(500).json({
+            response: { default: "Internal server error error while generating accessToken" }
+          })
+        }
+        return res.status(200).json({ accessToken });
+      }
+
     } catch (error) {
-      return res.status(500).send('Internal error');
+      return res.status(500).json({
+        error: { default: "Internal server error" }
+      });
     }
-    
-}
-  public  getAll = async (req: Request, res: Response) => {
+
+  }
+  public getAll = async (req: Request, res: Response) => {
     try {
       const allUsers = await this._userService.getUsers();
       return res.status(400).send(allUsers);
     } catch (error: any) {
       console.log(error)
-      res.status(500).send('Internal error');
+      res.status(500).json({
+        error: { default: "Internal server error" }
+      });
     }
   }
 
