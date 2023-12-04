@@ -10,7 +10,7 @@ interface IUser extends Document {
 
 export class UserModel {
   private static instance: Model<IUser>;
-  private static saltRounds: number = 10;
+  static saltRounds: number = 10;
 
   private constructor() { }
 
@@ -24,10 +24,12 @@ export class UserModel {
           required: true,
           unique: true,
           trim: true,
+
         },
         password: {
           type: String,
           required: true,
+
         },
         email: {
           type: String,
@@ -35,6 +37,7 @@ export class UserModel {
           unique: true,
           trim: true,
           lowercase: true,
+
         },
       });
 

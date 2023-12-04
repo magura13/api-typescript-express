@@ -2,8 +2,14 @@ import { NextFunction, Request, Response } from 'express';
 import { JWTGenerator } from '../../services/JWTService';
 
 export class EnsureAuthenticatedMiddleware {
+
+  private _jwt : JWTGenerator;
+
+  constructor () {
+    this._jwt = new JWTGenerator();
+  }
     
-public async ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
+public ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
@@ -20,8 +26,7 @@ public async ensureAuthenticated(req: Request, res: Response, next: NextFunction
       })
     }
 
-    const jwt = new JWTGenerator();
-    const jwtData = jwt.verify(token);
+    const jwtData = this._jwt.verify(token);
 
     if (jwtData === 'JWT_SECRET_NOT_FOUND') {
       return res.status(500).json({

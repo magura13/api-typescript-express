@@ -15,9 +15,18 @@ export class ValidationMiddleware {
     return this._validationRules.signInValidationRules
   }
 
+  public get getChangeUserValidationRules() {
+    return this._validationRules.changeUserValidationRules
+  }
+
   public get getValidationRules() {
     return this._validationRules.userValidationRules
   }
+
+  public get getUserIdValidationRules() {
+    return this._validationRules.userIdValidationRules
+  }
+
 
   public validateRequest(req: Request, res: Response) {
     const errors = validationResult(req);
