@@ -6,9 +6,7 @@ import { UserService } from '../services/userServices';
 const router = Router();
 const userServiceInstance = new UserService();
 const userController = new UserController(userServiceInstance);
-const middleware = new Middleware();
 
-
-router.post('/',json(),userController.verifyUser);
+router.post('/',json(),userController.getSignInValidationRules(),userController.verifyUser);
 
 export default router;

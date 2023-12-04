@@ -37,15 +37,20 @@ export class UserController {
       }
     }
   }
+
   public verifyUser = async (req: Request, res: Response) => {
     try {
+      const middlewareError = this._middleware.validateRequest(req, res);
+      if (middlewareError) {
+        return res.status(400).json({ ValidationErrors: middlewareError });
+      }
       const { email, password } = req.body;
       const user = await this._userService.getUserbyEmail(email);
       const passwordIsValid = user ? await bcrypt.compare(password, user.password) : false;
 
       if (!passwordIsValid) {
         return res.status(401).json({
-          response: { default: "Invalid email/password" }
+          response: { default: "Invalid email / password" }
         });
       } else {
         const jwt = new JWTGenerator();
@@ -69,7 +74,7 @@ export class UserController {
   public getAll = async (req: Request, res: Response) => {
     try {
       const allUsers = await this._userService.getUsers();
-      return res.status(400).send(allUsers);
+      return res.status(200).json({data:allUsers});
     } catch (error: any) {
       console.log(error)
       res.status(500).json({

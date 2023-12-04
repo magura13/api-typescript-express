@@ -1,6 +1,5 @@
 import { validationResult, body } from 'express-validator';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import { JWTGenerator } from '../services/JWTService';
 
 export class Middleware {
@@ -34,7 +33,7 @@ export class Middleware {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
+      return res.status(401).json({
         errors: { default: "Not Authenticated" }
       })
     }
@@ -42,7 +41,7 @@ export class Middleware {
     const [type, token] = authorization.split(' ');
 
     if (type !== 'Bearer') {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
+      return res.status(401).json({
         errors: { default: "Not Authenticated" }
       })
     }
