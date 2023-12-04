@@ -1,6 +1,5 @@
 import { Router, json } from 'express';
 import { UserController } from '../controllers/userControllers';
-import { Middleware } from '../middlewares/validationMiddleware';
 import { UserService } from '../services/userServices';
 
 const router = Router();

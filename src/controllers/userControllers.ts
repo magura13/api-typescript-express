@@ -1,16 +1,18 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/userServices';
-import { Middleware } from '../middlewares/validationMiddleware';
+import { ValidationMiddleware } from '../middlewares/validation/validationMiddleware';
 import bcrypt from 'bcrypt';
 import { JWTGenerator } from '../services/JWTService';
 
 export class UserController {
-  private _middleware: Middleware;
+  private _middleware: ValidationMiddleware;
   private _userService: UserService;
+  private _jwtGenerator:JWTGenerator;
 
   constructor(userService: UserService) {
     this._userService = userService;
-    this._middleware = new Middleware();
+    this._middleware = new ValidationMiddleware();
+    this._jwtGenerator = new JWTGenerator();
   }
 
   public createUser = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
@@ -53,8 +55,7 @@ export class UserController {
           response: { default: "Invalid email / password" }
         });
       } else {
-        const jwt = new JWTGenerator();
-        const accessToken = jwt.sign({ uid: user?._id });
+        const accessToken =this._jwtGenerator.sign({ uid: user?._id });
 
         if (accessToken === 'JWT_SECRET_NOT_FOUND') {
           return res.status(500).json({
