@@ -9,6 +9,7 @@ const userController = new UserController(userServiceInstance);
 const middleware = new Middleware();
 
 router.post('/', json(),middleware.ensureAuthenticated, userController.getValidationRules(), userController.createUser);
+router.patch('/', json(),middleware.ensureAuthenticated, userController.getValidationRules(), userController.createUser);
 router.get('/',json(),middleware.ensureAuthenticated,userController.getAll);
 
 export default router;
