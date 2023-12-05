@@ -4,5 +4,5 @@ export interface IValidationRules {
   userValidationRules: ValidationChain[];
   signInValidationRules: ValidationChain[];
   userIdValidationRules: ValidationChain[];
-  changeUserValidationRules:ValidationChain[];
+  changeUserValidationRules: ValidationChain[];
 }

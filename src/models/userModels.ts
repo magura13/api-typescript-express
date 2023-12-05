@@ -12,34 +12,35 @@ export class UserModel {
   private static instance: Model<IUser>;
   static saltRounds: number = 10;
 
-  private constructor() { }
+  private constructor() {}
 
   public static async getInstance(): Promise<Model<IUser>> {
     if (!this.instance) {
       await DbConnection.getInstance().connect();
 
-      const userSchema = new mongoose.Schema({
-        userName: {
-          type: String,
-          required: true,
-          unique: true,
-          trim: true,
-
+      const userSchema = new mongoose.Schema(
+        {
+          userName: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true,
+          },
+          password: {
+            type: String,
+            required: true,
+          },
+          email: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true,
+            lowercase: true,
+            index: true,
+          },
         },
-        password: {
-          type: String,
-          required: true,
-
-        },
-        email: {
-          type: String,
-          required: true,
-          unique: true,
-          trim: true,
-          lowercase: true,
-
-        },
-      });
+        { timestamps: true }
+      );
 
       userSchema.pre<IUser>('save', async function (next) {
         if (!this.isModified('password')) return next();
@@ -52,18 +53,21 @@ export class UserModel {
           if (error instanceof Error) {
             next(error);
           } else {
-            next(new Error('Erro desconhecido ao criptografar senha'));
+            next(new Error('Error bcrypt.genSalt models'));
           }
         }
       });
-
 
       this.instance = mongoose.model<IUser>('User', userSchema);
     }
     return this.instance;
   }
 
-  public static async createUser(userData: { userName: string; password: string; email: string }): Promise<IUser> {
+  public static async createUser(userData: {
+    userName: string;
+    password: string;
+    email: string;
+  }): Promise<IUser> {
     const model = await this.getInstance();
     const user = new model(userData);
     return user.save();

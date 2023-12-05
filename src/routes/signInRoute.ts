@@ -6,6 +6,11 @@ const router = Router();
 const userServiceInstance = new UserService();
 const userController = new UserController(userServiceInstance);
 
-router.post('/',json(),userController.getSignInValidationRules(),userController.verifyUser);
+router.post(
+  '/',
+  json(),
+  userController.getSignInValidationRules(),
+  userController.verifyUser
+);
 
 export default router;
