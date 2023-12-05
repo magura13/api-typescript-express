@@ -43,7 +43,10 @@ npm run dev
 - `.eslintrc.json`: ESLint configurations to ensure code quality.
 
 ## Testing
-Run tests with the command: Creating
+Run tests with the command: 
+```javascript
+npm run test
+```
 
 ## Contributions
 Contributions are welcome.
