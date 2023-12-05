@@ -17,7 +17,9 @@ This project is a RESTful API developed with Node.js, Express, MongoDB, and Type
 
 ## Installation
 Clone the repository:
-```git clone https://github.com/magura13/api-typescript-express```
+```javascript
+git clone https://github.com/magura13/api-typescript-express
+```
 
 And install the dependencies:
 ```npm install```
