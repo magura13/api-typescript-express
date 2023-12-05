@@ -25,9 +25,9 @@ export class UserController {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
       const newUser = req.body;
-      await this._userService.createUser(newUser);
+      const user = await this._userService.createUser(newUser);
       return res.status(200).json({
-        response: { default: 'User added successfully' },
+        response: { default: 'User added successfully', user },
       });
     } catch (error: any) {
       if (error.code === 11000) {
