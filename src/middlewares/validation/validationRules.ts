@@ -17,7 +17,10 @@ export const validationRules: IValidationRules = {
   userIdValidationRules: [param('userId').notEmpty()],
   changeUserValidationRules: [
     body('email').notEmpty().isEmail().optional(),
-    body('password').notEmpty().optional(),
+    body('password')
+      .notEmpty().optional()
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)
+      .isLength({ min: 6 }).optional(),
     body('userName').notEmpty().optional(),
   ],
 };
