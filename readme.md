@@ -22,14 +22,20 @@ git clone https://github.com/magura13/api-typescript-express
 ```
 
 And install the dependencies:
-```npm install```
+```javascript
+npm install
+```
 
 ## Execution
 To start the application, run:
-```npm start```
+```javascript
+npm start
+```
 
 For development mode, with hot reload:
-```npm run dev```
+```javascript
+npm run dev
+```
 
 ## Project Structure
 - `src/app.ts`: Entry point of the application, setting up the Express server.
