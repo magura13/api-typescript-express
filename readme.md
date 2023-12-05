@@ -42,14 +42,8 @@ npm run dev
 - `src/models`: Contains the Mongoose data models.
 - `.eslintrc.json`: ESLint configurations to ensure code quality.
 
-## Features
-- RESTful endpoints for CRUD operations.
-- Authentication and validation middleware.
-- Password security with bcrypt.
-- Automatic timestamps for user records (createdAt and updatedAt).
-
 ## Testing
-Run tests with the command:
+Run tests with the command: Creating
 
 ## Contributions
 Contributions are welcome.
