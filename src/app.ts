@@ -9,6 +9,7 @@ const dbConnection = DbConnection.getInstance();
 
 app.use('/user', userRoute);
 app.use('/signin', signinRoute);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
