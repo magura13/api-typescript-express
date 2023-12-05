@@ -1,0 +1,5 @@
+CORREÇÕES
+  [] - Correção do erro quando userName já existe está retornando email
+
+MELHORIAS
+  [] - Trazer no response os dados de criação do banco, o objeto completo
