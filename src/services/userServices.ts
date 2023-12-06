@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { UserModel } from '../models/userModels';
+import { Encrypt } from '../shared/encrypt';
 
 export class UserService {
   public async createUser(newUser: {
@@ -7,6 +8,9 @@ export class UserService {
     password: string;
     email: string;
   }): Promise<any> {
+    const salt = await bcrypt.genSalt(Encrypt.saltRounds);
+    const encryptedPassword = await bcrypt.hash(newUser.password, salt);
+    newUser.password = encryptedPassword;
     const model = await UserModel.getInstance();
     return model.create(newUser);
   }
@@ -36,7 +40,7 @@ export class UserService {
   public changeUserData = async (userId: string, newUserData: any) => {
     const model = await UserModel.getInstance();
     if (newUserData.password) {
-      const salt = await bcrypt.genSalt(UserModel.saltRounds);
+      const salt = await bcrypt.genSalt(Encrypt.saltRounds);
       const encryptedPassword = await bcrypt.hash(newUserData.password, salt);
       return await model
         .findOneAndUpdate(

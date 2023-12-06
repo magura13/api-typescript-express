@@ -19,7 +19,7 @@ export class DbConnection {
       const uri: string =
         process.env.URI_STRING || 'dotenv error at db connect';
       await mongoose.connect(uri);
-      console.log('Successfully connected to MongoDB using Mongoose!');
+      console.log('Successfully connected to MongoDB');
     } catch (error) {
       console.error('An error occurred while connecting to MongoDB:', error);
     }

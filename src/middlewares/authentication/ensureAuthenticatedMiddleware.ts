@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { JWTGenerator } from '../../services/JWTService';
+import { JWTGenerator } from '../../shared/jwtService';
 
 export class EnsureAuthenticatedMiddleware {
   private _jwt: JWTGenerator;

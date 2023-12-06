@@ -1,7 +1,8 @@
 import * as jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
 
 interface IJWTData {
-  uid: number;
+  uid: ObjectId | undefined;
 }
 
 export class JWTGenerator {

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UserService } from '../services/userServices';
 import { ValidationMiddleware } from '../middlewares/validation/validationMiddleware';
 import bcrypt from 'bcrypt';
-import { JWTGenerator } from '../services/JWTService';
+import { JWTGenerator } from '../shared/JWTService';
 
 export class UserController {
   private _middleware: ValidationMiddleware;
