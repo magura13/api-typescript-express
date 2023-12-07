@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UserService } from '../services/userServices';
 import { ValidationMiddleware } from '../middlewares/validation/validationMiddleware';
 import bcrypt from 'bcrypt';
-import { JWTGenerator } from '../shared/JWTService';
+import { JWTGenerator } from '../shared/jwtService';
 
 export class UserController {
   private _middleware: ValidationMiddleware;
@@ -44,6 +44,7 @@ export class UserController {
 
   public verifyUser = async (req: Request, res: Response) => {
     try {
+      console.log('flag');
       const middlewareError = this._middleware.validateRequest(req, res);
       if (middlewareError) {
         return res.status(400).json({ ValidationErrors: middlewareError });
