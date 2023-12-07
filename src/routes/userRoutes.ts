@@ -10,20 +10,17 @@ const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
 
 router.post(
   '/',
-  json(),
   userController.getValidationRules(),
   userController.createUser
 );
 
 router.get(
   '/',
-  json(),
   authenticationMiddleware.ensureAuthenticated,
   userController.getAll
 );
 router.get(
   '/:userId',
-  json(),
   authenticationMiddleware.ensureAuthenticated,
   userController.getUserIdValidationRules(),
   userController.getUserbyId
@@ -31,7 +28,6 @@ router.get(
 
 router.patch(
   '/:userId',
-  json(),
   authenticationMiddleware.ensureAuthenticated,
   userController.getChangeUserValidationRules(),
   userController.changeUserData
@@ -39,7 +35,6 @@ router.patch(
 
 router.delete(
   '/:userId',
-  json(),
   authenticationMiddleware.ensureAuthenticated,
   userController.getUserIdValidationRules(),
   userController.deleteUserbyId

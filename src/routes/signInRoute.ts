@@ -8,7 +8,6 @@ const userController = new UserController(userServiceInstance);
 
 router.post(
   '/',
-  json(),
   userController.getSignInValidationRules(),
   userController.verifyUser
 );

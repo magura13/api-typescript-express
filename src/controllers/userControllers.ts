@@ -44,7 +44,6 @@ export class UserController {
 
   public verifyUser = async (req: Request, res: Response) => {
     try {
-      console.log('flag');
       const middlewareError = this._middleware.validateRequest(req, res);
       if (middlewareError) {
         return res.status(400).json({ ValidationErrors: middlewareError });
