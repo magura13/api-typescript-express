@@ -10,6 +10,7 @@ This project is a RESTful API developed with Node.js, Express, MongoDB, and Type
 - **Mongoose**: ODM library for MongoDB, managing data schemas and interactions with the database.
 - **TypeScript**: A superset of JavaScript that adds static typing, enhancing code maintenance and development.
 - **bcrypt**: Library for hashing passwords, providing security for user information.
+- - **JSONwebtoken**: Library for generate JWT.
 
 ## Prerequisites
 - Node.js (version 18.18.2 or higher)
