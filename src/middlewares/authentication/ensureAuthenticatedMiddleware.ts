@@ -41,7 +41,7 @@ export class EnsureAuthenticatedMiddleware {
       });
     }
 
-    req.headers.userId = jwtData.uid.toString();
+   // req.headers.userId = jwtData.uid.toString();
 
     return next();
   };
