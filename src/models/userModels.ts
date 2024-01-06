@@ -27,6 +27,20 @@ export class UserModel {
             lowercase: true,
             index: true,
           },
+          openToWork: {
+            type: Boolean,
+            default:true
+          },
+          programmingLanguages : [
+            {
+              language: String,
+              experience: String,
+            }
+          ],
+          workAt: [{
+            type: String,
+          }]
+
         },
         { timestamps: true }
       );
