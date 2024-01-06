@@ -1,4 +1,4 @@
-import { Router, json } from 'express';
+import { Router} from 'express';
 import { UserController } from '../controllers/userControllers';
 import { EnsureAuthenticatedMiddleware } from '../middlewares/authentication/ensureAuthenticatedMiddleware';
 import { UserService } from '../services/userServices';
