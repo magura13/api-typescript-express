@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/userServices';
-import { ValidationMiddleware } from '../middlewares/validation/validationMiddleware';
+import { UserValidationMiddleware } from '../middlewares/validation/user/userValidationMiddleware';
 import bcrypt from 'bcrypt';
 import { JWTGenerator } from '../shared/jwtService';
 
 export class UserController {
-  private _middleware: ValidationMiddleware;
+  private _middleware: UserValidationMiddleware;
   private _userService: UserService;
   private _jwtGenerator: JWTGenerator;
 
   constructor(userService: UserService) {
     this._userService = userService;
-    this._middleware = new ValidationMiddleware();
+    this._middleware = new UserValidationMiddleware();
     this._jwtGenerator = new JWTGenerator();
   }
 

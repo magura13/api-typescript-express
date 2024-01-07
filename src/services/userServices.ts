@@ -1,13 +1,9 @@
 import bcrypt from 'bcrypt';
-import { UserModel } from '../models/userModels';
+import { UserModel } from '../models/userModel';
 import { Encrypt } from '../shared/encrypt';
 
 export class UserService {
-  public async createUser(newUser: {
-    userName: string;
-    password: string;
-    email: string;
-  }): Promise<any> {
+  public async createUser(newUser:IUser): Promise<any> {
     const salt = await bcrypt.genSalt(Encrypt.saltRounds);
     const encryptedPassword = await bcrypt.hash(newUser.password, salt);
     newUser.password = encryptedPassword;

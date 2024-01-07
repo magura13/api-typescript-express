@@ -1,13 +1,13 @@
 import { validationResult, body } from 'express-validator';
 import { Request, Response } from 'express';
-import { IValidationRules } from './validationInterfaces';
-import { validationRules } from './validationRules';
+import { IValidationRules } from './userValidationInterfaces';
+import { userValidationRules } from './userValidationRules';
 
-export class ValidationMiddleware {
+export class UserValidationMiddleware {
   private _validationRules: IValidationRules;
 
   constructor() {
-    this._validationRules = validationRules;
+    this._validationRules = userValidationRules;
   }
 
   public get getSignInValidationRules() {

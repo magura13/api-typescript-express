@@ -1,7 +1,7 @@
 import { body, param, query } from 'express-validator';
-import { IValidationRules } from './validationInterfaces';
+import { IValidationRules } from './userValidationInterfaces';
 
-export const validationRules: IValidationRules = {
+export const userValidationRules: IValidationRules = {
   userValidationRules: [
     body('email')
       .notEmpty().withMessage('Email is required')
