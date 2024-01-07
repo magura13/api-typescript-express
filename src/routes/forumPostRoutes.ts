@@ -15,4 +15,31 @@ router.post(
   forumPostController.createForumPost
 );
 
+router.get(
+  '/',
+  authenticationMiddleware.ensureAuthenticated,
+  forumPostController.getAllForumPosts
+);
+
+router.get(
+  '/:forumPostId',
+  authenticationMiddleware.ensureAuthenticated,
+  forumPostController.getForumPostIdValidationRules,
+  forumPostController.getForumPostbyId
+);
+
+router.delete(
+  '/:forumPostId',
+  authenticationMiddleware.ensureAuthenticated,
+  forumPostController.getForumPostIdValidationRules,
+  forumPostController.deleteForumPostbyId
+);
+
+router.patch(
+  '/:forumPostId',
+  authenticationMiddleware.ensureAuthenticated,
+  forumPostController.getChangeForumPostValidationRules,
+  forumPostController.changeForumPostData
+);
+
 export default router

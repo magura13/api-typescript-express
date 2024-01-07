@@ -32,6 +32,8 @@ export const userValidationRules: IValidationRules = {
   ],
 
   changeUserValidationRules: [
+    param('userId')
+      .notEmpty().withMessage('User ID is required'),
     body('email')
       .notEmpty().optional()
       .isEmail().optional(),

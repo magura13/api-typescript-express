@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
-import { UserModel } from '../models/userModel';
+import { UserModel } from '../models/user/userModel';
 import { Encrypt } from '../shared/encrypt';
 
 export class UserService {
-  public async createUser(newUser:IUser): Promise<any> {
+  public async createUser(newUser: IUser): Promise<any> {
     const salt = await bcrypt.genSalt(Encrypt.saltRounds);
     const encryptedPassword = await bcrypt.hash(newUser.password, salt);
     newUser.password = encryptedPassword;
@@ -49,17 +49,19 @@ export class UserService {
           { new: true }
         )
         .exec();
-    }
-    return await model
-      .findOneAndUpdate(
-        { _id: userId },
-        {
-          email: newUserData.email,
-          userName: newUserData.userName,
-          password: newUserData.password,
-        },
-        { new: true }
-      )
-      .exec();
-  };
+    } else {
+      return await model
+        .findOneAndUpdate(
+          { _id: userId },
+          {
+            email: newUserData.email,
+            userName: newUserData.userName,
+            password: newUserData.password,
+          },
+          { new: true }
+        )
+        .exec();
+    };
+  }
 }
+

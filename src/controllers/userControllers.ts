@@ -116,19 +116,22 @@ export class UserController {
       if (middlewareError) {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
-      const userId = req.params.userId;
-      const userNewData = req.body;
-      const newUser = await this._userService.changeUserData(
-        userId,
-        userNewData
-      );
-      if (Object.keys(req.body).length === 0) {
+      const bodyLength = Object.keys(req.body).length;
+      if (bodyLength === 0) {
         return res.status(400).json({
           response: {
             default: `Request was made, but since you haven't inserted properties to be changed, it didn't changed nothing.`,
           },
         });
-      }
+      };
+
+      const userId = req.params.userId;
+      const userNewData = req.body;
+      const user = await this._userService.changeUserData(
+        userId,
+        userNewData
+      );
+
       return res.status(200).json({
         response: {
           default: `User data was updated, to check :http://localhost:8000/user/${userId}`,
@@ -138,8 +141,14 @@ export class UserController {
       if (error.code === 11000) {
         return res.status(409).json({
           response: { default: 'Email already being used' },
+        })
+      }
+      else if (error.kind === "ObjectId") {
+        return res.status(404).json({
+          errors: { default: 'UserId  not found' },
         });
-      } else {
+      }
+      else {
         return res.status(500).json({
           errors: { default: 'Internal server errorr' },
         });
