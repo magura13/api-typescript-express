@@ -2,7 +2,7 @@ import express from 'express';
 import { DbConnection } from './database/dbConnect';
 import userRoute from './routes/userRoutes';
 import signinRoute from './routes/signInRoute';
-import forumPostRoute from "../src/routes/forumPostRoutes"
+import forumPostRoute from './routes/forumPostRoutes';
 import cors from 'cors';
 
 export const app = express();
