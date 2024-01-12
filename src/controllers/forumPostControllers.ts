@@ -117,8 +117,6 @@ export class ForumPostController {
       }
     }
   };
-
-
   public get getForumPostValidationRules() {
     return this._middleware.forumPostValidationRules
   }

@@ -2,11 +2,15 @@ import { Router} from 'express';
 import { EnsureAuthenticatedMiddleware } from '../middlewares/authentication/ensureAuthenticatedMiddleware';
 import { ForumPostController } from '../controllers/forumPostControllers';
 import { ForumPostService } from '../services/forumPostService';
+import { CommentController } from '../controllers/commentController';
+import { CommentService } from '../services/commentService';
 
 const router = Router();
 const forumPostServiceInstance = new ForumPostService();
 const forumPostController = new ForumPostController(forumPostServiceInstance);
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
+const commentServiceInstance = new CommentService()
+const commentController = new CommentController(commentServiceInstance);
 
 router.post(
   '/',
@@ -40,6 +44,13 @@ router.patch(
   authenticationMiddleware.ensureAuthenticated,
   forumPostController.getChangeForumPostValidationRules,
   forumPostController.changeForumPostData
+);
+
+router.post(
+  '/:forumPostId/comments',
+  authenticationMiddleware.ensureAuthenticated,
+  commentController.getCommentValidationRules,
+  commentController.createComment
 );
 
 export default router

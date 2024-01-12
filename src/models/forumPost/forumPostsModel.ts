@@ -28,9 +28,21 @@ export class ForumPostModel {
             },
             images: {
               type: [String],
-              required: true,
             },
           },
+          comments:[
+            {
+              userId:{
+                type:String,
+              },
+              message:{
+                type:String
+              },
+              isActive:{
+                type:Boolean
+              }
+            }
+          ]
         },
         { timestamps: true }
       );

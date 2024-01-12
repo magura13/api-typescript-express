@@ -5,5 +5,6 @@ interface IForumPost extends Document {
       subject:string,
       message:string,
       images:Array<string>
+      comments:Array<IComment>
     }
   }
