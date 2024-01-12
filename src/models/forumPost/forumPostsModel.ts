@@ -39,7 +39,8 @@ export class ForumPostModel {
                 type:String
               },
               isActive:{
-                type:Boolean
+                type:Boolean,
+                default:true
               }
             }
           ]
