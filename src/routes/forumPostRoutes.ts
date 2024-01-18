@@ -1,4 +1,4 @@
-import { Router} from 'express';
+import { Router } from 'express';
 import { EnsureAuthenticatedMiddleware } from '../middlewares/authentication/ensureAuthenticatedMiddleware';
 import { ForumPostController } from '../controllers/forumPostControllers';
 import { ForumPostService } from '../services/forumPostService';
@@ -51,6 +51,13 @@ router.post(
   authenticationMiddleware.ensureAuthenticated,
   commentController.getCommentValidationRules,
   commentController.createComment
+);
+
+router.delete(
+  '/:forumPostId/comments',
+  authenticationMiddleware.ensureAuthenticated,
+  // commentController.getCommentValidationRules,
+  commentController.removeComment
 );
 
 export default router
