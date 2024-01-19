@@ -3,6 +3,7 @@ import { DbConnection } from './database/dbConnect';
 import userRoute from './routes/userRoutes';
 import signinRoute from './routes/signInRoute';
 import forumPostRoute from './routes/forumPostRoutes';
+import commentsRoute from './routes/commentsRoutes'
 import cors from 'cors';
 
 export const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/user', userRoute);
 app.use('/signin', signinRoute);
 app.use('/forumpost', forumPostRoute);
+app.use('/comments', commentsRoute);
 
 dbConnection
   .connect()

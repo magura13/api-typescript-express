@@ -7,9 +7,16 @@ export const commentValidationRules: IValidationRules = {
       .notEmpty().withMessage('postId is required'),
 
     body('userId')
-      .notEmpty().withMessage('UserId is required'),
+      .notEmpty().withMessage('userId is required'),
 
     body('message')
       .notEmpty().withMessage('Message field is required'),
+  ],
+  commentRemovalValidationRules: [
+    param('forumPostId')
+      .notEmpty().withMessage('postId is required'),
+
+    body('commentId')
+      .notEmpty().withMessage('commentId is required'),
   ]
 };

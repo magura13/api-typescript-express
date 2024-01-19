@@ -14,6 +14,10 @@ export class CommentValidationMiddleware {
     return this._validationRules.commentValidationRules;
   }
 
+  public get getCommentRemovalValidationRules () {
+    return this._validationRules.commentRemovalValidationRules;
+  }
+
   public validateRequest(req: Request, res: Response) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

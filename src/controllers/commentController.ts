@@ -74,4 +74,8 @@ export class CommentController {
   public get getCommentValidationRules() {
     return this._middleware.getCommentValidationRules;
   }
+
+  public get getCommentRemovalValidationRules() {
+    return this._middleware.getCommentRemovalValidationRules;
+  }
 }
