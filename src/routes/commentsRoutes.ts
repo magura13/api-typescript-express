@@ -22,4 +22,11 @@ router.delete(
   commentController.removeComment
 );
 
+router.patch(
+  '/:forumPostId',
+  authenticationMiddleware.ensureAuthenticated,
+  commentController.getCommentChangeValidationRules,
+  commentController.changeComment
+);
+
 export default router

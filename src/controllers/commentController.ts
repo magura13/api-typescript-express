@@ -71,11 +71,45 @@ export class CommentController {
     }
   }
 
+  public changeComment = async (
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> => {
+    try {
+      const middlewareError = this._middleware.validateRequest(req, res);
+      if (middlewareError) {
+        return res.status(400).json({ ValidationErrors: middlewareError });
+      }
+      const comment = req.body;
+      const forumPostId = req.params.forumPostId;
+      const addedComment = await this._commentService.changeComment(forumPostId, comment);
+      return res.status(200).json({
+        response: { default: 'Comment changed successfully', addedComment },
+      });
+    } catch (error: any) {
+      if (error.kind === "ObjectId") {
+        return res.status(404).json({
+          errors: { default: 'Post Id not found' },
+        })
+      }
+      else {
+        return res.status(500).json({
+          errors: { default: 'Internal server errorr' }
+        });
+      }
+
+    }
+  }
+
   public get getCommentValidationRules() {
     return this._middleware.getCommentValidationRules;
-  }
+  };
 
   public get getCommentRemovalValidationRules() {
     return this._middleware.getCommentRemovalValidationRules;
+  };
+
+  public get getCommentChangeValidationRules() {
+    return this._middleware.getCommentChangeValidationRules;
   }
 }

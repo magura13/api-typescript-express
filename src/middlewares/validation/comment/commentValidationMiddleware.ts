@@ -18,6 +18,10 @@ export class CommentValidationMiddleware {
     return this._validationRules.commentRemovalValidationRules;
   }
 
+  public get getCommentChangeValidationRules () {
+    return this._validationRules.commentChangeValidationRules;
+  }
+
   public validateRequest(req: Request, res: Response) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
