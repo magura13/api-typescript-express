@@ -34,7 +34,9 @@ export class ForumPostController {
 
   public getAllForumPosts = async (req: Request, res: Response) => {
     try {
-      const allForumPosts = await this._forumPostService.getForumPosts();
+      const offset:number= Number(req.query.offset);
+      const limit:number= Number(req.query.limit);
+      const allForumPosts = await this._forumPostService.getForumPosts(limit,offset);
       return res.status(200).json({ data: allForumPosts });
     } catch (error: any) {
       console.log(error);

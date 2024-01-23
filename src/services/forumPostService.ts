@@ -7,9 +7,9 @@ export class ForumPostService {
     return model.create(newForumPost);
   }
 
-  public async getForumPosts() :Promise<Object> {
+  public async getForumPosts(limit:number,offset:number) :Promise<Object> {
     const model = await ForumPostModel.getInstance();
-    const data = await model.find({});
+    const data = await model.find({}).sort({'createdAt':1}).skip(offset).limit(limit).exec();
     return data
   }
 

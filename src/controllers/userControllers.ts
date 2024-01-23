@@ -80,7 +80,9 @@ export class UserController {
 
   public getAll = async (req: Request, res: Response) => {
     try {
-      const allUsers = await this._userService.getUsers();
+      const offset:number= Number(req.query.offset);
+      const limit:number= Number(req.query.limit);
+      const allUsers = await this._userService.getUsers(limit,offset);
       return res.status(200).json({ data: allUsers });
     } catch (error: any) {
       console.log(error);
