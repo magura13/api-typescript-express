@@ -27,7 +27,7 @@ export class UserController {
       const newUser = req.body;
       const user = await this._userService.createUser(newUser);
       return res.status(200).json({
-        response: { default: 'User added successfully', user },
+        response: { default: 'User added successfully'},
       });
     } catch (error: any) {
       if (error.code === 11000) {
