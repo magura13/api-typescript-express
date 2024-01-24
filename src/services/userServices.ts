@@ -13,7 +13,7 @@ export class UserService {
 
   public async getUsers(limit:number,offset:number): Promise<any> {
     const model = await UserModel.getInstance();
-    const users = model.find({}).sort({'createdAt':1}).skip(offset).limit(limit).exec();
+    const users = model.find({}).sort({'createdAt':-1}).skip(offset).limit(limit).exec();
     return users;
   }
 
