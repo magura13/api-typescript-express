@@ -9,7 +9,7 @@ export class ForumPostService {
 
   public async getForumPosts(limit:number,offset:number) :Promise<Object> {
     const model = await ForumPostModel.getInstance();
-    const data = await model.find({}).sort({'createdAt':1}).skip(offset).limit(limit).exec();
+    const data = await model.find({}).sort({'createdAt':-1}).skip(offset).limit(limit).exec();
     const totalForumPosts = await model.countDocuments();
     const hasMore = offset + limit < totalForumPosts
     const response = {hasMore,data}
