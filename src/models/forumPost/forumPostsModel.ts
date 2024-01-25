@@ -13,6 +13,11 @@ export class ForumPostModel {
             type: String,
             required: true,
           },
+          userName: {
+            type: String,
+            required: true,
+            trim: true,
+          },
           content: {
             title: {
               type: String,

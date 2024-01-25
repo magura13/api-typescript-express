@@ -6,6 +6,9 @@ export const forumPostvalidationRules: IForumPostValidationRules = {
     body('userId')
       .notEmpty()
       .withMessage('User ID is required'),
+    body('userName')
+    .notEmpty()
+    .withMessage('User name is required'),
 
     body('content.title')
       .notEmpty()
