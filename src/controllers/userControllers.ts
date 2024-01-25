@@ -69,7 +69,7 @@ export class UserController {
             },
           });
         }
-        return res.status(200).json({ accessToken });
+        return res.status(200).json({ accessToken, userId: user?._id, userName: user?.userName });
       }
     } catch (error) {
       return res.status(500).json({
