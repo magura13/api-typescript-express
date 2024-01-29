@@ -3,7 +3,7 @@ import mongoose, { Model } from 'mongoose';
 export class ForumPostModel {
   private static instance: Model<IForumPost>;
 
-  private constructor() {}
+  private constructor() { }
 
   public static async getInstance(): Promise<Model<IForumPost>> {
     if (!this.instance) {
@@ -31,21 +31,32 @@ export class ForumPostModel {
               type: String,
               required: true,
             },
-            images: {
-              type: [String],
-            },
+            images: [
+              {
+                sort: {
+                  type: Number,
+                },
+                extension:{
+                    type:String,
+                },
+                path:{
+                  type:String,
+              }
+              }
+            ]
+
           },
-          comments:[
+          comments: [
             {
-              userId:{
-                type:String,
+              userId: {
+                type: String,
               },
-              message:{
-                type:String
+              message: {
+                type: String
               },
-              isActive:{
-                type:Boolean,
-                default:true
+              isActive: {
+                type: Boolean,
+                default: true
               }
             }
           ]
