@@ -54,6 +54,9 @@ export class ForumPostModel {
               message: {
                 type: String
               },
+              userName: {
+                type: String,
+              },
               isActive: {
                 type: Boolean,
                 default: true
