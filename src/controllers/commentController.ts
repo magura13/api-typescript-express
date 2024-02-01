@@ -52,9 +52,9 @@ export class CommentController {
       }
       const commentId = req.params.commentId;
       const forumPostId = req.params.forumPostId;
-      const addedComment = await this._commentService.deleteComment(forumPostId, commentId);
+      const commentIdRemoved = await this._commentService.deleteComment(forumPostId, commentId);
       return res.status(200).json({
-        response: { default: 'Comment deleted successfully', addedComment },
+        response: { default: 'Comment deleted successfully', commentIdRemoved },
       });
     } catch (error: any) {
       if (error.kind === "ObjectId") {
@@ -62,6 +62,12 @@ export class CommentController {
           errors: { default: 'Post Id not found' },
         })
       }
+       else if (error.message="Comment doesnt exist") {
+        return res.status(404).json({
+          errors: { default: 'Comment Id not found' },
+        })
+       }
+
       else {
         return res.status(500).json({
           errors: { default: 'Internal server errorr' }

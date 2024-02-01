@@ -22,8 +22,14 @@ export class CommentService {
         if (forumPost) {
             const forumPostComments = forumPost.comments;
             const commentIndex = forumPostComments.findIndex((comment:any)=> comment._id.toString() === commentId )
-            forumPost.comments.splice(commentIndex,1)
-            await forumPost.save()
+            if (commentIndex>0) {
+                forumPost.comments.splice(commentIndex,1)
+                await forumPost.save()
+                return commentId
+            } else {
+                throw new Error('Comment doesnt exist');   
+            }
+
         }
     }
 
