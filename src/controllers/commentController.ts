@@ -50,7 +50,7 @@ export class CommentController {
       if (middlewareError) {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
-      const commentId = req.body.commentId;
+      const commentId = req.params.commentId;
       const forumPostId = req.params.forumPostId;
       const addedComment = await this._commentService.deleteComment(forumPostId, commentId);
       return res.status(200).json({
