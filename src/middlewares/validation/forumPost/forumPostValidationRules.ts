@@ -14,10 +14,6 @@ export const forumPostvalidationRules: IForumPostValidationRules = {
       .notEmpty()
       .withMessage('Title is required'),
 
-    body('content.subject')
-      .notEmpty()
-      .withMessage('Subject is required'),
-
     body('content.message')
       .notEmpty()
       .withMessage('Message is required')
