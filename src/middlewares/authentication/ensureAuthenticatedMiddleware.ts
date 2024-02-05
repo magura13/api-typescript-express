@@ -40,9 +40,38 @@ export class EnsureAuthenticatedMiddleware {
         errors: { default: 'Not Authenticated' },
       });
     }
-
-   // req.headers.userId = jwtData.uid.toString();
-
     return next();
   };
+
+  public ensureAuthenticatedFixedToken = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res.status(401).json({
+        errors: { default: 'Not Authenticated' },
+      });
+    }
+
+    const [type, token] = authorization.split(' ');
+
+    if (type !== 'Bearer') {
+      return res.status(401).json({
+        errors: { default: 'Not Authenticated' },
+      });
+    }
+
+    const jwtData = '2b187843-2bd7-4160-8d4f-83034c3ab2c3'
+
+    if (token !== jwtData) {
+      return res.status(401).json({
+        errors: { default: 'Not Authenticated' },
+      });
+    }
+    return next();
+  };
+
 }

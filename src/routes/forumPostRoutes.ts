@@ -21,7 +21,7 @@ router.post(
 
 router.get(
   '/',
-  authenticationMiddleware.ensureAuthenticated,
+  authenticationMiddleware.ensureAuthenticatedFixedToken,
   forumPostController.getAllForumPosts
 );
 
