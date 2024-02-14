@@ -32,16 +32,17 @@ export class ForumPostModel {
                 sort: {
                   type: Number,
                 },
-                extension:{
-                    type:String,
+                extension: {
+                  type: String,
                 },
-                path:{
-                  type:String,
-              }
+                path: {
+                  type: String,
+                }
               }
             ]
 
           },
+          likes: { type: Array<String> },
           comments: [
             {
               userId: {
