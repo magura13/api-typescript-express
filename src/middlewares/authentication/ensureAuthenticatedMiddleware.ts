@@ -32,7 +32,7 @@ export class EnsureAuthenticatedMiddleware {
     const jwtData = this._jwt.verify(token);
 
     if (jwtData === 'JWT_SECRET_NOT_FOUND') {
-      return res.status(500).json({
+      return res.status(401).json({
         errors: { default: 'Error while verifying token' },
       });
     } else if (jwtData === 'INVALID_TOKEN') {
