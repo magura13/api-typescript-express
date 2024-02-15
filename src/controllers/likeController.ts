@@ -31,6 +31,10 @@ export class LikeController {
                 return res.status(404).json({
                     errors: { default: 'Post Id not found' },
                 })
+            } else if (error.message === "User already liked") {
+                return res.status(409).json({
+                    errors: { default: 'User already liked' },
+                })
             }
             else {
                 return res.status(500).json({
@@ -41,7 +45,7 @@ export class LikeController {
         }
     }
 
-    public get getLikeValidationRules () {
+    public get getLikeValidationRules() {
         return this._middleware.forumPostValidationRules
     }
 
