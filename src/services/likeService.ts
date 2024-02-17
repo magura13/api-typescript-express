@@ -5,12 +5,12 @@ export class LikeService {
     public likePost = async (forumPostId: string, userId: string) => {
         const model = await ForumPostModel.getInstance();
         const forumPost: any = await model.findOne({ _id: forumPostId })
-        const commentIndex = forumPost.likes.findIndex((likes:any)=> likes.toString() === userId);
-        if (commentIndex<0) {
+        const likeIndex = forumPost.likes.findIndex((likes: any) => likes.toString() === userId);
+        if (likeIndex < 0) {
             forumPost.likes.push(userId);
             await forumPost.save();
             return {
-                status: "Comment added",
+                status: "Like added",
                 userId: userId
             }
         } else {
@@ -18,20 +18,18 @@ export class LikeService {
         }
     }
 
-    public deleteComment = async (forumPostId: string, userId: string) => {
+    public deleteLike = async (forumPostId: string, userId: string) => {
         const model = await ForumPostModel.getInstance();
         const forumPost: any = await model.findOne({ _id: forumPostId })
-        if (forumPost) {
-            const forumPostComments = forumPost.comments;
-            const commentIndex = forumPostComments.findIndex((comment: any) => comment._id.toString() === userId)
-            if (commentIndex >= 0) {
-                forumPost.comments.splice(commentIndex, 1)
-                await forumPost.save()
-                return userId
-            } else {
-                throw new Error('Comment doesnt exist');
-            }
-
+        const likeIndex = forumPost.likes.findIndex((likes: any) => likes.toString() === userId);
+        if (likeIndex >= 0) {
+            forumPost.likes.splice(likeIndex, 1)
+            await forumPost.save()
+            return userId
+        } else {
+            throw new Error('Like does not exist');
         }
+
     }
 }
+

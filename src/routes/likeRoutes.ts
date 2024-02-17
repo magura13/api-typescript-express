@@ -12,14 +12,14 @@ router.post(
   '/:forumPostId/:userId',
   authenticationMiddleware.ensureAuthenticated,
   likeController.getLikeValidationRules,
-  likeController.createComment
+  likeController.createLike
 );
 
-// router.delete(
-//   '/:forumPostId/:commentId',
-//   authenticationMiddleware.ensureAuthenticated,
-//   commentController.getCommentRemovalValidationRules,
-//   commentController.removeComment
-// );
+router.delete(
+  '/:forumPostId/:userId',
+  authenticationMiddleware.ensureAuthenticated,
+  likeController.getLikeValidationRules,
+  likeController.removeLike
+);
 
 export default router
