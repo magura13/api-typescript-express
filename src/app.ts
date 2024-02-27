@@ -6,9 +6,10 @@ import forumPostRoute from './routes/forumPostRoutes';
 import commentsRoute from './routes/commentsRoutes'
 import likeRoutes from './routes/likeRoutes'
 import cors from 'cors';
+import s3Router from './routes/s3Routes';
 
 export const app = express();
-const port = 8000;
+const port = 3001;
 const dbConnection = DbConnection.getInstance();
 
 app.use(cors({origin:'*'}));
@@ -20,6 +21,7 @@ app.use('/signin', signinRoute);
 app.use('/forumpost', forumPostRoute);
 app.use('/comments', commentsRoute);
 app.use('/like',likeRoutes )
+app.use('/api/s3', s3Router)
 
 dbConnection
   .connect()
