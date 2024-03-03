@@ -4,7 +4,7 @@ export class ForumPostService {
 
   public async createForumPost(newForumPost:IForumPost): Promise<IForumPost> {
     const model = await ForumPostModel.getInstance();
-    return model.create(newForumPost);
+    return await model.create(newForumPost);
   }
 
   public async getForumPosts(limit:number,offset:number) :Promise<Object> {
