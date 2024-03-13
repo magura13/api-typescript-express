@@ -7,8 +7,6 @@ interface CreatePresignedPostParams {
     contentType: string;
 }
 
-console.log(`config.AWS.Region = ${config.AWS.Region}\n config.AWS.AccessKeyId ${config.AWS.AccessKeyId} \n config.AWS.AWSSecretKey = ${config.AWS.AWSSecretKey} \n config.AWS.BucketName = ${config.AWS.BucketName}`)
-
 if (!config.AWS.Region || !config.AWS.AccessKeyId || !config.AWS.AWSSecretKey || !config.AWS.BucketName) {
     throw new Error('AWS configuration is missing.');
 }
