@@ -6,6 +6,7 @@ import forumPostRoute from './routes/forumPostRoutes';
 import commentsRoute from './routes/commentsRoutes'
 import likeRoutes from './routes/likeRoutes'
 import cors from 'cors';
+import cookieParser from 'cookie-parser'
 import s3Router from './routes/s3Routes';
 
 export const app = express();
@@ -15,6 +16,7 @@ const dbConnection = DbConnection.getInstance();
 app.use(cors({origin:'*'}));
 
 app.use(express.json());
+app.use(cookieParser())
 
 app.use('/user', userRoute);
 app.use('/signin', signinRoute);

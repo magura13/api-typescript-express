@@ -14,6 +14,9 @@ router.post(
   userController.createUser
 );
 
+router.patch('/refresh',
+userController.refreshToken)
+
 router.get(
   '/',
   authenticationMiddleware.ensureAuthenticated,

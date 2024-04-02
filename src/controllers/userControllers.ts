@@ -50,6 +50,7 @@ export class UserController {
       }
       const { email, password } = req.body;
       const user = await this._userService.getUserbyEmail(email);
+      const userId = user?._id.toString()
       const passwordIsValid = user
         ? await bcrypt.compare(password, user.password)
         : false;
@@ -59,7 +60,10 @@ export class UserController {
           response: { default: 'Invalid email / password' },
         });
       } else {
-        const accessToken = this._jwtGenerator.sign({ uid: user?._id });
+
+        const accessToken = this._jwtGenerator.sign( {uid:userId} );
+
+        const refreshToken = this._jwtGenerator.signRefresh({uid:userId})
 
         if (accessToken === 'JWT_SECRET_NOT_FOUND') {
           return res.status(500).json({
@@ -69,7 +73,16 @@ export class UserController {
             },
           });
         }
-        return res.status(200).json({ accessToken, userId: user?._id, userName: user?.userName });
+        return res
+        .cookie('refreshToken', refreshToken, {
+          path: '/',
+          secure: true, 
+          httpOnly: true, 
+          sameSite: 'strict', 
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+        .status(200)
+        .json({ accessToken, userId: user?._id, userName: user?.userName });
       }
     } catch (error) {
       return res.status(500).json({
@@ -77,6 +90,38 @@ export class UserController {
       });
     }
   };
+
+  public refreshToken = async (req: Request, res: Response) => {
+
+    const refreshTokenCookie = req.cookies['refreshToken']
+    try {
+
+      const decoded = this._jwtGenerator.verify(refreshTokenCookie)
+
+      const { uid } = decoded;
+
+      const newToken = this._jwtGenerator.sign( {
+        uid:uid
+      } )
+
+      const refreshToken =this._jwtGenerator.signRefresh({
+        uid:uid
+      });
+
+      res
+      .cookie('refreshToken', refreshToken, {
+          path: '/',
+          secure: true, 
+          httpOnly: true,
+          sameSite: 'strict',
+      })
+      .status(200).json({ token: newToken });
+
+  } catch (error) {
+      console.error(error);
+      res.status(401).send('Invalid or expired token');
+  }
+}
 
   public getAll = async (req: Request, res: Response) => {
     try {

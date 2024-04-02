@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 
 interface IJWTData {
-  uid: ObjectId | undefined;
+  uid: string | undefined;
 }
 
 export class JWTGenerator {
@@ -11,6 +11,17 @@ export class JWTGenerator {
 
     return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '24h' });
   };
+
+  public signRefresh = (data:IJWTData): string | 'JWT_SECRET_NOT_FOUND' => {
+    if (!process.env.JWT_SECRET) return 'JWT_SECRET_NOT_FOUND';
+    return jwt.sign(
+      { uid:data },
+      process.env.JWT_SECRET,
+      {
+          expiresIn: '7d',
+      }
+  );
+  }
 
   public verify = (
     token: string
