@@ -27,7 +27,7 @@ export class UserController {
       const newUser = req.body;
       const user = await this._userService.createUser(newUser);
       return res.status(200).json({
-        response: { default: 'User added successfully'},
+        response: { default: 'User added successfully' },
       });
     } catch (error: any) {
       if (error.code === 11000) {
@@ -61,9 +61,9 @@ export class UserController {
         });
       } else {
 
-        const accessToken = this._jwtGenerator.sign( {uid:userId} );
+        const accessToken = this._jwtGenerator.sign({ uid: userId });
 
-        const refreshToken = this._jwtGenerator.signRefresh({uid:userId})
+        const refreshToken = this._jwtGenerator.signRefresh({ uid: userId })
 
         if (accessToken === 'JWT_SECRET_NOT_FOUND') {
           return res.status(500).json({
@@ -74,15 +74,15 @@ export class UserController {
           });
         }
         return res
-        .cookie('refreshToken', refreshToken, {
-          path: '/',
-          secure: true, 
-          httpOnly: true, 
-          sameSite: 'strict', 
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
-        .status(200)
-        .json({ accessToken, userId: user?._id, userName: user?.userName });
+          .cookie('refreshToken', refreshToken, {
+            path: '/',
+            secure: true,
+            httpOnly: true,
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+          })
+          .status(200)
+          .json({ accessToken, userId: user?._id, userName: user?.userName });
       }
     } catch (error) {
       return res.status(500).json({
@@ -96,147 +96,155 @@ export class UserController {
     const refreshTokenCookie = req.cookies['refreshToken']
     try {
 
-      const decoded = this._jwtGenerator.verify(refreshTokenCookie)
+      const result = await this._jwtGenerator.verify(refreshTokenCookie);
 
-      const { uid } = decoded;
+      if (typeof result === 'object' && result !== null && 'uid' in result) {
+       
+        var uid = result.uid; 
+      } else {
 
-      const newToken = this._jwtGenerator.sign( {
-        uid:uid
-      } )
+        console.error(result);
+      }
+    
 
-      const refreshToken =this._jwtGenerator.signRefresh({
-        uid:uid
-      });
 
-      res
+    const newToken = await this._jwtGenerator.sign({
+      uid: uid
+    })
+
+    const refreshToken = await this._jwtGenerator.signRefresh({
+      uid: uid
+    });
+
+    res
       .cookie('refreshToken', refreshToken, {
-          path: '/',
-          secure: true, 
-          httpOnly: true,
-          sameSite: 'strict',
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
       })
       .status(200).json({ token: newToken });
 
-  } catch (error) {
-      console.error(error);
-      res.status(401).send('Invalid or expired token');
+  } catch(error) {
+    console.error(error);
+    res.status(401).send('Invalid or expired token');
   }
 }
 
   public getAll = async (req: Request, res: Response) => {
-    try {
-      const offset:number= Number(req.query.offset);
-      const limit:number= Number(req.query.limit);
-      const allUsers = await this._userService.getUsers(limit,offset);
-      return res.status(200).json({ data: allUsers });
-    } catch (error: any) {
-      console.log(error);
-      res.status(500).json({
-        error: { default: 'Internal server error' },
-      });
-    }
-  };
+  try {
+    const offset: number = Number(req.query.offset);
+    const limit: number = Number(req.query.limit);
+    const allUsers = await this._userService.getUsers(limit, offset);
+    return res.status(200).json({ data: allUsers });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      error: { default: 'Internal server error' },
+    });
+  }
+};
 
   public getUserbyId = async (req: Request, res: Response) => {
-    try {
-      const middlewareError = this._middleware.validateRequest(req, res);
-      if (middlewareError) {
-        return res.status(400).json({ ValidationErrors: middlewareError });
-      }
-      const userId = req.params.userId;
-      const user = await this._userService.getUserbyId(userId);
-      return res.status(200).json({ data: user });
-    } catch (error: any) {
-      console.log(error);
-      res.status(500).json({
-        error: { default: 'Internal server error' },
-      });
+  try {
+    const middlewareError = this._middleware.validateRequest(req, res);
+    if (middlewareError) {
+      return res.status(400).json({ ValidationErrors: middlewareError });
     }
-  };
+    const userId = req.params.userId;
+    const user = await this._userService.getUserbyId(userId);
+    return res.status(200).json({ data: user });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      error: { default: 'Internal server error' },
+    });
+  }
+};
 
   public changeUserData = async (
-    req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> => {
-    try {
-      const middlewareError = this._middleware.validateRequest(req, res);
-      if (middlewareError) {
-        return res.status(400).json({ ValidationErrors: middlewareError });
-      }
-      const bodyLength = Object.keys(req.body).length;
-      if (bodyLength === 0) {
-        return res.status(400).json({
-          response: {
-            default: `Request was made, but since you haven't inserted properties to be changed, it didn't changed nothing.`,
-          },
-        });
-      };
-
-      const userId = req.params.userId;
-      const userNewData = req.body;
-      const user = await this._userService.changeUserData(
-        userId,
-        userNewData
-      );
-
-      return res.status(200).json({
+  req: Request,
+  res: Response
+): Promise<Response<any, Record<string, any>>> => {
+  try {
+    const middlewareError = this._middleware.validateRequest(req, res);
+    if (middlewareError) {
+      return res.status(400).json({ ValidationErrors: middlewareError });
+    }
+    const bodyLength = Object.keys(req.body).length;
+    if (bodyLength === 0) {
+      return res.status(400).json({
         response: {
-          default: `User data was updated, to check :http://localhost:8000/user/${userId}`,
+          default: `Request was made, but since you haven't inserted properties to be changed, it didn't changed nothing.`,
         },
       });
-    } catch (error: any) {
-      if (error.code === 11000) {
-        return res.status(409).json({
-          response: { default: 'Email already being used' },
-        })
-      }
-      else if (error.kind === "ObjectId") {
-        return res.status(404).json({
-          errors: { default: 'UserId  not found' },
-        });
-      }
-      else {
-        return res.status(500).json({
-          errors: { default: 'Internal server errorr' },
-        });
-      }
-    }
-  };
+    };
 
-  public deleteUserbyId = async (req: Request, res: Response) => {
-    try {
-      const middlewareError = this._middleware.validateRequest(req, res);
-      if (middlewareError) {
-        return res.status(400).json({ ValidationErrors: middlewareError });
-      }
-      const userId = req.params.userId;
-      const user = await this._userService.deleteUserbyId(userId);
-      return res
-        .status(200)
-        .json({
-          message: `User ${user?.userName} id:${user?._id} was deleted`,
-        });
-    } catch (error: any) {
-      console.log(error);
-      res.status(500).json({
-        error: { default: 'Internal server error' },
+    const userId = req.params.userId;
+    const userNewData = req.body;
+    const user = await this._userService.changeUserData(
+      userId,
+      userNewData
+    );
+
+    return res.status(200).json({
+      response: {
+        default: `User data was updated, to check :http://localhost:8000/user/${userId}`,
+      },
+    });
+  } catch (error: any) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        response: { default: 'Email already being used' },
+      })
+    }
+    else if (error.kind === "ObjectId") {
+      return res.status(404).json({
+        errors: { default: 'UserId  not found' },
       });
     }
-  };
+    else {
+      return res.status(500).json({
+        errors: { default: 'Internal server errorr' },
+      });
+    }
+  }
+};
+
+  public deleteUserbyId = async (req: Request, res: Response) => {
+  try {
+    const middlewareError = this._middleware.validateRequest(req, res);
+    if (middlewareError) {
+      return res.status(400).json({ ValidationErrors: middlewareError });
+    }
+    const userId = req.params.userId;
+    const user = await this._userService.deleteUserbyId(userId);
+    return res
+      .status(200)
+      .json({
+        message: `User ${user?.userName} id:${user?._id} was deleted`,
+      });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      error: { default: 'Internal server error' },
+    });
+  }
+};
 
   public getValidationRules = () => {
-    return this._middleware.getValidationRules;
-  };
+  return this._middleware.getValidationRules;
+};
 
   public getChangeUserValidationRules = () => {
-    return this._middleware.getChangeUserValidationRules;
-  };
+  return this._middleware.getChangeUserValidationRules;
+};
 
   public getUserIdValidationRules = () => {
-    return this._middleware.getUserIdValidationRules;
-  };
+  return this._middleware.getUserIdValidationRules;
+};
 
   public getSignInValidationRules = () => {
-    return this._middleware.getSignInValidationRules;
-  };
+  return this._middleware.getSignInValidationRules;
+};
 }

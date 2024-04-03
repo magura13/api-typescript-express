@@ -15,13 +15,15 @@ export class JWTGenerator {
   public signRefresh = (data:IJWTData): string | 'JWT_SECRET_NOT_FOUND' => {
     if (!process.env.JWT_SECRET) return 'JWT_SECRET_NOT_FOUND';
     return jwt.sign(
-      { uid:data },
+      data,
       process.env.JWT_SECRET,
       {
           expiresIn: '7d',
       }
   );
   }
+
+  
 
   public verify = (
     token: string
