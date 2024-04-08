@@ -14,7 +14,7 @@ const port = 3001;
 const dbConnection = DbConnection.getInstance();
 
 const corsOptions = {
-  origin: '*', // Allow only this origin
+  origin: ['http://localhost:3000'], // Allow only this origin
   credentials: true, // Allow credentials (cookies, authentication, etc.)
 };
 
