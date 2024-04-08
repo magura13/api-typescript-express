@@ -13,7 +13,12 @@ export const app = express();
 const port = 3001;
 const dbConnection = DbConnection.getInstance();
 
-app.use(cors({origin:'*'}));
+const corsOptions = {
+  origin: '*', // Allow only this origin
+  credentials: true, // Allow credentials (cookies, authentication, etc.)
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser())

@@ -105,8 +105,6 @@ export class UserController {
 
         console.error(result);
       }
-    
-
 
     const newToken = await this._jwtGenerator.sign({
       uid: uid
