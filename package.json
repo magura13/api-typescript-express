@@ -55,6 +55,8 @@
     "mongodb": "^6.2.0",
     "mongoose": "^8.0.0",
     "nest": "^0.1.6",
-    "supertest": "^6.3.3"
+    "nvm": "^0.0.4",
+    "supertest": "^6.3.3",
+    "windows": "^0.1.2"
   }
 }

@@ -52,7 +52,11 @@ export class CommentController {
       }
       const commentId = req.params.commentId;
       const forumPostId = req.params.forumPostId;
-      const commentIdRemoved = await this._commentService.deleteComment(forumPostId, commentId);
+      const requesterUserId = req.params.userId;
+
+      
+
+      const commentIdRemoved = await this._commentService.deleteComment(forumPostId, commentId, requesterUserId);
       return res.status(200).json({
         response: { default: 'Comment deleted successfully', commentIdRemoved },
       });
@@ -62,9 +66,14 @@ export class CommentController {
           errors: { default: 'Post Id not found' },
         })
       }
-       else if (error.message="Comment doesnt exist") {
+       else if (error.message==="Comment doesnt exist") {
         return res.status(404).json({
           errors: { default: 'Comment Id not found' },
+        })
+       }
+       else if (error.message==="UserNotOwner") {
+        return res.status(403).json({
+          errors: { default: 'Cannot delete another persons comment' },
         })
        }
 

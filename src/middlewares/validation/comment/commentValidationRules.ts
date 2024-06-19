@@ -18,6 +18,9 @@ export const commentValidationRules: IValidationRules = {
 
     param('commentId')
       .notEmpty().withMessage('commentId is required'),
+      
+    param('userId')
+      .notEmpty().withMessage('commentId is required'),
   ],
   commentChangeValidationRules:[
     param('forumPostId')

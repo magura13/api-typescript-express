@@ -16,7 +16,7 @@ router.post(
 );
 
 router.delete(
-  '/:forumPostId/:commentId',
+  '/:forumPostId/:commentId/:userId',
   authenticationMiddleware.ensureAuthenticated,
   commentController.getCommentRemovalValidationRules,
   commentController.removeComment
