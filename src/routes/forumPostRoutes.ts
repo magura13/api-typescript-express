@@ -4,9 +4,11 @@ import { ForumPostController } from '../controllers/forumPostControllers';
 import { ForumPostService } from '../services/forumPostService';
 import { CommentController } from '../controllers/commentController';
 import { CommentService } from '../services/commentService';
+import { ForumPostRepository } from '../repositories/forumPost/ForumPostRepository';
 
 const router = Router();
-const forumPostServiceInstance = new ForumPostService();
+const forumPostRepository = new ForumPostRepository();
+const forumPostServiceInstance = new ForumPostService(forumPostRepository);
 const forumPostController = new ForumPostController(forumPostServiceInstance);
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
 const commentServiceInstance = new CommentService()

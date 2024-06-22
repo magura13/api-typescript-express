@@ -1,4 +1,5 @@
-interface IUser extends Document {
+interface User extends Document {
+    _id :string
     userName: string;
     password: string;
     email: string;

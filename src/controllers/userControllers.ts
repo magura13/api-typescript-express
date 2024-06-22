@@ -3,6 +3,7 @@ import { UserService } from '../services/userServices';
 import { UserValidationMiddleware } from '../middlewares/validation/user/userValidationMiddleware';
 import bcrypt from 'bcrypt';
 import { JWTGenerator } from '../shared/jwtService';
+import { port } from '../app';
 
 export class UserController {
   private _middleware: UserValidationMiddleware;
@@ -49,7 +50,7 @@ export class UserController {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
       const { email, password } = req.body;
-      const user = await this._userService.getUserbyEmail(email);
+      const user = await this._userService.getUserByEmail(email);
       const userId = user?._id.toString()
       const passwordIsValid = user
         ? await bcrypt.compare(password, user.password)
@@ -187,13 +188,13 @@ export class UserController {
 
     return res.status(200).json({
       response: {
-        default: `User data was updated, to check :http://localhost:8000/user/${userId}`,
+        default: `User data was updated, to check :http://localhost:${port}/user/${userId}`,
       },
     });
   } catch (error: any) {
     if (error.code === 11000) {
       return res.status(409).json({
-        response: { default: 'Email already being used' },
+        response: { default: 'Email/UserName already being used' },
       })
     }
     else if (error.kind === "ObjectId") {

@@ -1,36 +1,38 @@
 import { ForumPostModel } from '../models/forumPost/forumPostsModel';
+import { ForumPostRepository } from '../repositories/forumPost/ForumPostRepository';
+import { GetForumPostReponse } from '../types/forumPost/GetForumPostResponse';
 
 export class ForumPostService {
 
-  public async createForumPost(newForumPost:IForumPost): Promise<IForumPost> {
-    const model = await ForumPostModel.getInstance();
-    return await model.create(newForumPost);
+  private _repository : ForumPostRepository
+
+  constructor(repository: ForumPostRepository) {
+    this._repository = repository
   }
 
-  public async getForumPosts(limit:number,offset:number) :Promise<Object> {
-    const model = await ForumPostModel.getInstance();
-    const data = await model.find({}).sort({'createdAt':-1}).skip(offset).limit(limit).exec();
-    const totalForumPosts = await model.countDocuments();
+
+  public async createForumPost(forumPost:ForumPostModel): Promise<ForumPostModel> {
+    return await this._repository.create(forumPost)
+  }
+
+  public async getForumPosts(limit:number,offset:number) :Promise<GetForumPostReponse> {
+
+    const forumPosts = await this._repository.getAll(limit,offset);
+    const totalForumPosts = await this._repository.countAll();
     const hasMore = offset + limit < totalForumPosts
-    const response = {hasMore,data}
-    return response
+    
+    return {hasMore,forumPosts};
   }
 
   public getforumPostbyId = async (forumPostId: string) : Promise<Object | null> => {
-    const model = await ForumPostModel.getInstance();
-    const forumPost = await model.findOne({ _id: forumPostId }).exec();
-    return forumPost;
+    return await this._repository.findOne(forumPostId);
   };
 
   public deleteForumPostbyId = async (forumPostId: string) : Promise<Object | null>=> {
-    const model = await ForumPostModel.getInstance();
-    const forumPost = await model.findOneAndDelete({ _id: forumPostId }).exec();
-    return forumPost;
+    return this._repository.findOneAndDelete(forumPostId);
   };
 
   public changeForumPostData = async (forumPostId:string, newForumPostData:Object) =>{
-    const model = await ForumPostModel.getInstance();
-    const forumPost = await model.findOneAndUpdate({ _id: forumPostId }, newForumPostData).exec();
-    return forumPost
+    return this._repository.findOneAndUpdate(forumPostId,newForumPostData);
   }
 } 

@@ -19,18 +19,18 @@ export class CommentService {
     public deleteComment = async (forumPostId: string, commentId: string, requesterUserId: string) => {
         const model = await ForumPostModel.getInstance();
         const forumPost: any = await model.findOne({ _id: forumPostId })
-        
+
         if (forumPost) {
             const forumPostComments = forumPost.comments;
             const commentIndex = forumPostComments.findIndex((comment: any) => comment._id.toString() === commentId)
-            
+
             if (commentIndex >= 0) {
                 const isCommentOwner = requesterUserId === forumPost.comments[commentIndex].userId;
 
-                if (!isCommentOwner){
-                    throw new Error("UserNotOwner")  
+                if (!isCommentOwner) {
+                    throw new Error("UserNotOwner")
                 }
-                    forumPost.comments.splice(commentIndex, 1)
+                forumPost.comments.splice(commentIndex, 1)
 
                 await forumPost.save()
 

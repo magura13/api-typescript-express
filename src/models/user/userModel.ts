@@ -1,11 +1,11 @@
 import mongoose, { Model } from 'mongoose';
 
 export class UserModel {
-  private static instance: Model<IUser>;
+  private static instance: Model<User>;
   private static error: Error;
   private constructor() { }
 
-  public static async getInstance(): Promise<Model<IUser>> {
+  public static async getInstance(): Promise<Model<User>> {
     if (!this.instance) {
       const userSchema = new mongoose.Schema(
         {
@@ -44,7 +44,7 @@ export class UserModel {
         },
         { timestamps: true }
       );
-      this.instance = mongoose.model<IUser>('User', userSchema);
+      this.instance = mongoose.model<User>('User', userSchema);
     }
     return this.instance;
   }

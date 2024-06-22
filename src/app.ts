@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser'
 import s3Router from './routes/s3Routes';
 
 export const app = express();
-const port = 3001;
+export const port = 3001;
 const dbConnection = DbConnection.getInstance();
 
 const corsOptions = {

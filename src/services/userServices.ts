@@ -1,67 +1,67 @@
 import bcrypt from 'bcrypt';
 import { UserModel } from '../models/user/userModel';
 import { Encrypt } from '../shared/encrypt';
+import { UserRepository } from '../repositories/user/UserRepository';
 
 export class UserService {
-  public async createUser(newUser: IUser): Promise<any> {
+
+  private _repository: UserRepository
+
+  constructor(repository: UserRepository) {
+    this._repository = repository
+  }
+
+  public async createUser(user: User): Promise<any> {
+
     const salt = await bcrypt.genSalt(Encrypt.saltRounds);
-    const encryptedPassword = await bcrypt.hash(newUser.password, salt);
-    newUser.password = encryptedPassword;
-    const model = await UserModel.getInstance();
-    return model.create(newUser);
+    const encryptedPassword = await bcrypt.hash(user.password, salt);
+    user.password = encryptedPassword;
+
+    return this._repository.create(user);
   }
 
-  public async getUsers(limit:number,offset:number): Promise<any> {
-    const model = await UserModel.getInstance();
-    const users = model.find({}).sort({'createdAt':-1}).skip(offset).limit(limit).exec();
-    return users;
+  public async getUsers(limit: number, offset: number): Promise<any> {
+    return this._repository.getAll(limit, offset)
   }
 
-  public getUserbyEmail = async (email: string) => {
-    const model = await UserModel.getInstance();
-    const user = await model.findOne({ email: email }).exec();
-    return user;
-  };
+  public async getUserbyId(userId: string) {
+    return this._repository.findOneById(userId);
+  }
 
-  public getUserbyId = async (userId: string) => {
+  public async deleteUserbyId(userId: string) {
+    return this._repository.deleteById(userId)
+  }
+
+  public async getUserByEmail(userEmail: string) {
+    return this._repository.findOneByEmail(userEmail)
+  }
+
+  public async changeUserData(userId: string, updatedData: User) {
     const model = await UserModel.getInstance();
-    const user = await model.findOne({ _id: userId }).exec();
-    return user;
-  };
-  public deleteUserbyId = async (userId: string) => {
-    const model = await UserModel.getInstance();
-    const user = await model.findOneAndDelete({ _id: userId }).exec();
-    return user;
-  };
-  public changeUserData = async (userId: string, newUserData: any) => {
-    const model = await UserModel.getInstance();
-    if (newUserData.password) {
+    if (updatedData.password) {
+
       const salt = await bcrypt.genSalt(Encrypt.saltRounds);
-      const encryptedPassword = await bcrypt.hash(newUserData.password, salt);
-      return await model
-        .findOneAndUpdate(
-          { _id: userId },
-          {
-            email: newUserData.email,
-            userName: newUserData.userName,
-            password: encryptedPassword,
-          },
-          { new: true }
-        )
-        .exec();
+      const encryptedPassword = await bcrypt.hash(updatedData.password, salt);
+
+      const user = {
+        email: updatedData.email,
+        userName: updatedData.userName,
+        password: encryptedPassword,
+      };
+
+      return await model.findOneAndUpdate({ _id: userId }, user, { new: true }).exec();
+
     } else {
-      return await model
-        .findOneAndUpdate(
-          { _id: userId },
-          {
-            email: newUserData.email,
-            userName: newUserData.userName,
-            password: newUserData.password,
-          },
-          { new: true }
-        )
-        .exec();
+
+      const user ={
+        email: updatedData.email,
+        userName: updatedData.userName,
+        password: updatedData.password,
+      }
+
+      return await model.findOneAndUpdate({ _id: userId }, user, { new: true }).exec();
     };
+
   }
 }
 
