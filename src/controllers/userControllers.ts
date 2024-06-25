@@ -21,23 +21,30 @@ export class UserController {
     res: Response
   ): Promise<Response<any, Record<string, any>>> => {
     try {
+
       const middlewareError = this._middleware.validateRequest(req, res);
       if (middlewareError) {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
+
       const newUser = req.body;
-      const user = await this._userService.createUser(newUser);
+      await this._userService.createUser(newUser);
       return res.status(200).json({
-        response: { default: 'User added successfully' },
+        response: { default: 'User added successfully' }
       });
+
     } catch (error: any) {
+
       if (error.code === 11000) {
         return res.status(409).json({
           response: { default: 'User/password/email already exists' },
         });
+
       } else {
+
         return res.status(500).json({
           errors: { default: 'Internal server errorr' },
+
         });
       }
     }

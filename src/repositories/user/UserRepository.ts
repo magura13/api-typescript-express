@@ -19,14 +19,14 @@ export class UserRepository implements IUserRepository {
         return await model.findOne({ _id: userId }).exec();
     }
 
+    async findOneByEmail(userEmail: string): Promise<User| null> {
+        const model = await UserModel.getInstance();
+        return await model.findOne({ email:userEmail }).exec();
+    }
+
     async deleteById(userId: string): Promise<User | null> {
         const model = await UserModel.getInstance();
         return await model.findOneAndDelete({ _id: userId }).exec();
-    }
-
-    async findOneByEmail(userEmail: string): Promise<User| null> {
-        const model = await UserModel.getInstance();
-        return await model.findOneAndDelete({ email:userEmail }).exec();
     }
 
     async updateById(userId: string, user: User): Promise<User | null> {
