@@ -14,31 +14,33 @@ export const port = 3001;
 const dbConnection = DbConnection.getInstance();
 
 const corsOptions = {
-  origin: ['http://localhost:3000'], // Allow only this origin
-  credentials: true, // Allow credentials (cookies, authentication, etc.)
+  origin: ['http://localhost:3000', 'https://buglifedev-react.vercel.app'], 
+  credentials: true, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use('/user', userRoute);
 app.use('/signin', signinRoute);
 app.use('/forumpost', forumPostRoute);
 app.use('/comments', commentsRoute);
-app.use('/like',likeRoutes )
-app.use('/api/s3', s3Router)
+app.use('/like', likeRoutes);
+app.use('/api/s3', s3Router);
 
 dbConnection
   .connect()
   .then(() => {
     app.listen(port, () => {
-      console.log(`Server running on port http://localhost:${port}`)
+      console.log(`Server running on port http://localhost:${port}`);
     });
   })
   .catch((error) => {
     console.error('Failed to connect to the database', error);
   });
 
-  module.exports = app
+module.exports = app;
