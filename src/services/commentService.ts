@@ -1,11 +1,16 @@
 import { ForumPostModel } from '../models/forumPost/forumPostsModel';
+import { ForumPostRepository } from '../repositories/forumPost/ForumPostRepository';
 
 export class CommentService {
 
+    private _repository : ForumPostRepository
+
+    constructor(repository: ForumPostRepository) {
+      this._repository = repository
+    }
 
     public createComment = async (forumPostId: string, comment: IComment) => {
-        const model = await ForumPostModel.getInstance();
-        const forumPost: any = await model.findOne({ _id: forumPostId })
+        const forumPost: any = await this._repository.findOne(forumPostId)
         if (forumPost) {
             forumPost.comments.push(comment);
             await forumPost.save();
@@ -17,8 +22,7 @@ export class CommentService {
     }
 
     public deleteComment = async (forumPostId: string, commentId: string, requesterUserId: string) => {
-        const model = await ForumPostModel.getInstance();
-        const forumPost: any = await model.findOne({ _id: forumPostId })
+        const forumPost: any = await this._repository.findOne(forumPostId)
 
         if (forumPost) {
             const forumPostComments = forumPost.comments;
@@ -43,8 +47,7 @@ export class CommentService {
     }
 
     public changeComment = async (forumPostId: string, commentData: IComment) => {
-        const model = await ForumPostModel.getInstance();
-        const forumPost: any = await model.findOne({ _id: forumPostId })
+        const forumPost: any = await this._repository.findOne(forumPostId)
         if (forumPost) {
             const forumPostComments = forumPost.comments;
             const commentIndex = forumPostComments.findIndex((comment: any) => comment._id.toString() === commentData.commentId.toString());

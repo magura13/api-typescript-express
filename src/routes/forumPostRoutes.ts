@@ -11,7 +11,7 @@ const forumPostRepository = new ForumPostRepository();
 const forumPostServiceInstance = new ForumPostService(forumPostRepository);
 const forumPostController = new ForumPostController(forumPostServiceInstance);
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
-const commentServiceInstance = new CommentService()
+const commentServiceInstance = new CommentService(forumPostRepository)
 const commentController = new CommentController(commentServiceInstance);
 
 router.post(

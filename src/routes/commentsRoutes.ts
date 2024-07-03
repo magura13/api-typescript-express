@@ -2,10 +2,12 @@ import { Router } from 'express';
 import { EnsureAuthenticatedMiddleware } from '../middlewares/authentication/ensureAuthenticatedMiddleware';
 import { CommentController } from '../controllers/commentController';
 import { CommentService } from '../services/commentService';
+import { ForumPostRepository } from '../repositories/forumPost/ForumPostRepository';
 
 const router = Router();
+const forumPostRepository = new ForumPostRepository();
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
-const commentServiceInstance = new CommentService()
+const commentServiceInstance = new CommentService(forumPostRepository)
 const commentController = new CommentController(commentServiceInstance);
 
 router.post(
