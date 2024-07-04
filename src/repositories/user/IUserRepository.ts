@@ -1,4 +1,3 @@
-
 export interface IUserRepository {
     create(user:User):Promise<User>
     getAll(limit:number,offset:number) : Promise<User[]>
