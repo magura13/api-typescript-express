@@ -11,16 +11,12 @@ export class JWTGenerator {
     return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1d' });
   };
 
-  public signRefresh = (data:IJWTData): string | 'JWT_SECRET_NOT_FOUND' => {
+  public signRefresh = (data: IJWTData): string | 'JWT_SECRET_NOT_FOUND' => {
     if (!process.env.JWT_SECRET) return 'JWT_SECRET_NOT_FOUND';
-    return jwt.sign(
-      data,
-      process.env.JWT_SECRET,
-      {
-          expiresIn: '7d',
-      }
-  );
-  }
+    return jwt.sign(data, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+  };
 
   public verify = (
     token: string

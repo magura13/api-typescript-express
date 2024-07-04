@@ -3,7 +3,7 @@ import mongoose, { Model } from 'mongoose';
 export class ForumPostModel {
   private static instance: Model<IForumPost>;
 
-  private constructor() { }
+  private constructor() {}
 
   public static async getInstance(): Promise<Model<IForumPost>> {
     if (!this.instance) {
@@ -37,10 +37,9 @@ export class ForumPostModel {
                 },
                 path: {
                   type: String,
-                }
-              }
-            ]
-
+                },
+              },
+            ],
           },
           likes: { type: Array<String> },
           comments: [
@@ -49,17 +48,17 @@ export class ForumPostModel {
                 type: String,
               },
               message: {
-                type: String
+                type: String,
               },
               userName: {
                 type: String,
               },
               isActive: {
                 type: Boolean,
-                default: true
-              }
-            }
-          ]
+                default: true,
+              },
+            },
+          ],
         },
         { timestamps: true }
       );

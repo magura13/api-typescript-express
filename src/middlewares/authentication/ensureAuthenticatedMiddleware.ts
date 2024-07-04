@@ -64,7 +64,7 @@ export class EnsureAuthenticatedMiddleware {
       });
     }
 
-    const jwtData = '2b187843-2bd7-4160-8d4f-83034c3ab2c3'
+    const jwtData = '2b187843-2bd7-4160-8d4f-83034c3ab2c3';
 
     if (token !== jwtData) {
       return res.status(401).json({
@@ -73,5 +73,4 @@ export class EnsureAuthenticatedMiddleware {
     }
     return next();
   };
-
 }

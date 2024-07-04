@@ -1,4 +1,4 @@
-import { Router} from 'express';
+import { Router } from 'express';
 import { UserController } from '../controllers/userControllers';
 import { EnsureAuthenticatedMiddleware } from '../middlewares/authentication/ensureAuthenticatedMiddleware';
 import { UserService } from '../services/userServices';
@@ -16,8 +16,7 @@ router.post(
   userController.createUser
 );
 
-router.patch('/refresh',
-userController.refreshToken)
+router.patch('/refresh', userController.refreshToken);
 
 router.get(
   '/',

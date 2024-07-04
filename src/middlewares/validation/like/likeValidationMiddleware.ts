@@ -11,7 +11,7 @@ export class LikeValidationMiddleware {
   }
 
   public get forumPostValidationRules() {
-    return this._validationRules.likeValidationRules
+    return this._validationRules.likeValidationRules;
   }
 
   public validateRequest(req: Request, res: Response) {

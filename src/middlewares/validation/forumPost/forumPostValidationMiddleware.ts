@@ -11,17 +11,16 @@ export class ForumPostValidationMiddleware {
   }
 
   public get forumPostValidationRules() {
-    return this._validationRules.forumPostValidationRules
+    return this._validationRules.forumPostValidationRules;
   }
 
   public get forumPostIdValidationRules() {
-    return this._validationRules.forumPostIdValidationRules
+    return this._validationRules.forumPostIdValidationRules;
   }
 
   public get changeForumPostValidationRules() {
-    return this._validationRules.forumPostChangeDataValidationRules
+    return this._validationRules.forumPostChangeDataValidationRules;
   }
-
 
   public validateRequest(req: Request, res: Response) {
     const errors = validationResult(req);

@@ -22,24 +22,25 @@ export class CommentController {
       }
       const newComment = req.body;
       const forumPostId = req.params.forumPostId;
-      const addedComment = await this._commentService.createComment(forumPostId, newComment);
+      const addedComment = await this._commentService.createComment(
+        forumPostId,
+        newComment
+      );
       return res.status(200).json({
         response: { default: 'Comment added successfully', addedComment },
       });
     } catch (error: any) {
-      if (error.kind === "ObjectId") {
+      if (error.kind === 'ObjectId') {
         return res.status(404).json({
           errors: { default: 'Post Id not found' },
-        })
-      }
-      else {
+        });
+      } else {
         return res.status(500).json({
-          errors: { default: 'Internal server errorr' }
+          errors: { default: 'Internal server errorr' },
         });
       }
-
     }
-  }
+  };
 
   public removeComment = async (
     req: Request,
@@ -54,37 +55,34 @@ export class CommentController {
       const forumPostId = req.params.forumPostId;
       const requesterUserId = req.params.userId;
 
-      
-
-      const commentIdRemoved = await this._commentService.deleteComment(forumPostId, commentId, requesterUserId);
+      const commentIdRemoved = await this._commentService.deleteComment(
+        forumPostId,
+        commentId,
+        requesterUserId
+      );
       return res.status(200).json({
         response: { default: 'Comment deleted successfully', commentIdRemoved },
       });
     } catch (error: any) {
-      if (error.kind === "ObjectId") {
+      if (error.kind === 'ObjectId') {
         return res.status(404).json({
           errors: { default: 'Post Id not found' },
-        })
-      }
-       else if (error.message==="Comment doesnt exist") {
+        });
+      } else if (error.message === 'Comment doesnt exist') {
         return res.status(404).json({
           errors: { default: 'Comment Id not found' },
-        })
-       }
-       else if (error.message==="UserNotOwner") {
+        });
+      } else if (error.message === 'UserNotOwner') {
         return res.status(403).json({
           errors: { default: 'Cannot delete another persons comment' },
-        })
-       }
-
-      else {
+        });
+      } else {
         return res.status(500).json({
-          errors: { default: 'Internal server errorr' }
+          errors: { default: 'Internal server errorr' },
         });
       }
-
     }
-  }
+  };
 
   public changeComment = async (
     req: Request,
@@ -97,32 +95,33 @@ export class CommentController {
       }
       const comment = req.body;
       const forumPostId = req.params.forumPostId;
-      const addedComment = await this._commentService.changeComment(forumPostId, comment);
+      const addedComment = await this._commentService.changeComment(
+        forumPostId,
+        comment
+      );
       return res.status(200).json({
         response: { default: 'Comment changed successfully', addedComment },
       });
     } catch (error: any) {
-      if (error.kind === "ObjectId") {
+      if (error.kind === 'ObjectId') {
         return res.status(404).json({
           errors: { default: 'Post Id not found' },
-        })
-      }
-      else {
+        });
+      } else {
         return res.status(500).json({
-          errors: { default: 'Internal server errorr' }
+          errors: { default: 'Internal server errorr' },
         });
       }
-
     }
-  }
+  };
 
   public get getCommentValidationRules() {
     return this._middleware.getCommentValidationRules;
-  };
+  }
 
   public get getCommentRemovalValidationRules() {
     return this._middleware.getCommentRemovalValidationRules;
-  };
+  }
 
   public get getCommentChangeValidationRules() {
     return this._middleware.getCommentChangeValidationRules;

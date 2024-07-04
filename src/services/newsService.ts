@@ -9,7 +9,9 @@ export class NewsService {
   }
 
   async refreshNews(articles: INews[]): Promise<void> {
-    const filteredArticles = articles.filter(article => article.urlToImage !== null);
+    const filteredArticles = articles.filter(
+      (article) => article.urlToImage !== null
+    );
 
     await this.newsRepository.deleteAllNews();
 

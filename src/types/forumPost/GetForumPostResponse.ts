@@ -1,6 +1,6 @@
-import { ForumPostModel } from "../../models/forumPost/forumPostsModel"
+import { ForumPostModel } from '../../models/forumPost/forumPostsModel';
 
 export type GetForumPostReponse = {
-    hasMore: boolean,
-    forumPosts: ForumPostModel[]
-}
+  hasMore: boolean;
+  forumPosts: ForumPostModel[];
+};

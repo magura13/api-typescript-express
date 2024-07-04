@@ -2,9 +2,8 @@ import express, { Request, Response } from 'express';
 import { createPresignedPost } from '../utils/s3';
 
 interface SignedUrlRequestBody {
-    key: string;
-    content_type: string;
-    
+  key: string;
+  content_type: string;
 }
 
 interface PresignedPostData {
@@ -14,24 +13,29 @@ interface PresignedPostData {
 
 const s3Router = express.Router();
 
-s3Router.post('/signed_url', async (req: Request<{}, {}, SignedUrlRequestBody>, res: Response) => {
+s3Router.post(
+  '/signed_url',
+  async (req: Request<{}, {}, SignedUrlRequestBody>, res: Response) => {
     try {
-        let { key, content_type } = req.body;
-        key = 'public/' + key;
-        const data: PresignedPostData = await createPresignedPost({ key, contentType: content_type });
-    
-        return res.send({
-            status: 'success',
-            data,
-        });
+      let { key, content_type } = req.body;
+      key = 'public/' + key;
+      const data: PresignedPostData = await createPresignedPost({
+        key,
+        contentType: content_type,
+      });
 
-    } catch(err: any) {
-        console.error(err);
-        return res.status(500).send({
-            status: 'error',
-            message: err.message,
-        });
+      return res.send({
+        status: 'success',
+        data,
+      });
+    } catch (err: any) {
+      console.error(err);
+      return res.status(500).send({
+        status: 'error',
+        message: err.message,
+      });
     }
-});
+  }
+);
 
 export default s3Router;

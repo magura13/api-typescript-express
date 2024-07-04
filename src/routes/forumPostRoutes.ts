@@ -11,7 +11,7 @@ const forumPostRepository = new ForumPostRepository();
 const forumPostServiceInstance = new ForumPostService(forumPostRepository);
 const forumPostController = new ForumPostController(forumPostServiceInstance);
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
-const commentServiceInstance = new CommentService(forumPostRepository)
+const commentServiceInstance = new CommentService(forumPostRepository);
 const commentController = new CommentController(commentServiceInstance);
 
 router.post(
@@ -62,4 +62,4 @@ router.delete(
   commentController.removeComment
 );
 
-export default router
+export default router;

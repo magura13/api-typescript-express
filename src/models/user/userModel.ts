@@ -3,7 +3,7 @@ import mongoose, { Model } from 'mongoose';
 export class UserModel {
   private static instance: Model<User>;
   private static error: Error;
-  private constructor() { }
+  private constructor() {}
 
   public static async getInstance(): Promise<Model<User>> {
     if (!this.instance) {
@@ -29,18 +29,19 @@ export class UserModel {
           },
           openToWork: {
             type: Boolean,
-            default:true
+            default: true,
           },
-          programmingLanguages : [
+          programmingLanguages: [
             {
               language: String,
               experience: String,
-            }
+            },
           ],
-          workAt: [{
-            type: String,
-          }]
-
+          workAt: [
+            {
+              type: String,
+            },
+          ],
         },
         { timestamps: true }
       );

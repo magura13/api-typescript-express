@@ -7,8 +7,8 @@ import { ForumPostRepository } from '../repositories/forumPost/ForumPostReposito
 const router = Router();
 const forumPostRepository = new ForumPostRepository();
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
-const likeServiceInstance = new LikeService(forumPostRepository)
-const likeController = new LikeController(likeServiceInstance)
+const likeServiceInstance = new LikeService(forumPostRepository);
+const likeController = new LikeController(likeServiceInstance);
 
 router.post(
   '/:forumPostId/:userId',
@@ -24,4 +24,4 @@ router.delete(
   likeController.removeLike
 );
 
-export default router
+export default router;

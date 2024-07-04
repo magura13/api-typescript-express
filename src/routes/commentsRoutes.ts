@@ -7,7 +7,7 @@ import { ForumPostRepository } from '../repositories/forumPost/ForumPostReposito
 const router = Router();
 const forumPostRepository = new ForumPostRepository();
 const authenticationMiddleware = new EnsureAuthenticatedMiddleware();
-const commentServiceInstance = new CommentService(forumPostRepository)
+const commentServiceInstance = new CommentService(forumPostRepository);
 const commentController = new CommentController(commentServiceInstance);
 
 router.post(
@@ -31,4 +31,4 @@ router.patch(
   commentController.changeComment
 );
 
-export default router
+export default router;

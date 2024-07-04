@@ -21,7 +21,8 @@ export class ForumPostController {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
       const newForumPost = req.body;
-      const forumPost = await this._forumPostService.createForumPost(newForumPost);
+      const forumPost =
+        await this._forumPostService.createForumPost(newForumPost);
       return res.status(200).json({
         response: { default: 'Forum post added successfully', forumPost },
       });
@@ -30,13 +31,16 @@ export class ForumPostController {
         errors: { default: 'Internal server errorr' },
       });
     }
-  }
+  };
 
   public getAllForumPosts = async (req: Request, res: Response) => {
     try {
-      const offset:number= Number(req.query.offset);
-      const limit:number= Number(req.query.limit);
-      const allForumPosts = await this._forumPostService.getForumPosts(limit,offset);
+      const offset: number = Number(req.query.offset);
+      const limit: number = Number(req.query.limit);
+      const allForumPosts = await this._forumPostService.getForumPosts(
+        limit,
+        offset
+      );
       return res.status(200).json({ data: allForumPosts });
     } catch (error: any) {
       console.log(error);
@@ -53,7 +57,8 @@ export class ForumPostController {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
       const forumPostId = req.params.forumPostId;
-      const forumPost = await this._forumPostService.getforumPostbyId(forumPostId);
+      const forumPost =
+        await this._forumPostService.getforumPostbyId(forumPostId);
       return res.status(200).json({ data: forumPost });
     } catch (error: any) {
       console.log(error);
@@ -70,7 +75,8 @@ export class ForumPostController {
         return res.status(400).json({ ValidationErrors: middlewareError });
       }
       const forumPostId = req.params.forumPostId;
-      const forumPost : any = await this._forumPostService.deleteForumPostbyId(forumPostId)
+      const forumPost: any =
+        await this._forumPostService.deleteForumPostbyId(forumPostId);
       return res.status(200).json({
         message: `Post ${forumPost?.content.title} id:${forumPost?.id} was deleted`,
       });
@@ -98,17 +104,20 @@ export class ForumPostController {
             default: `Request was made, but since you haven't inserted properties to be changed, it didn't changed nothing.`,
           },
         });
-      };
-      const forumPostId = req.params.forumPostId
+      }
+      const forumPostId = req.params.forumPostId;
       const forumPostNewData = req.body;
-      await this._forumPostService.changeForumPostData(forumPostId,forumPostNewData)
+      await this._forumPostService.changeForumPostData(
+        forumPostId,
+        forumPostNewData
+      );
       return res.status(200).json({
         response: {
           default: `User data was updated, to check :http://localhost:8000/user/${forumPostId}`,
         },
       });
-    } catch (error: any) {  
-      if (error.kind ==="ObjectId") {
+    } catch (error: any) {
+      if (error.kind === 'ObjectId') {
         return res.status(404).json({
           errors: { default: 'Post Id not found' },
         });
@@ -120,14 +129,14 @@ export class ForumPostController {
     }
   };
   public get getForumPostValidationRules() {
-    return this._middleware.forumPostValidationRules
+    return this._middleware.forumPostValidationRules;
   }
 
   public get getForumPostIdValidationRules() {
-    return this._middleware.forumPostIdValidationRules
+    return this._middleware.forumPostIdValidationRules;
   }
-  
+
   public get getChangeForumPostValidationRules() {
-    return this._middleware.changeForumPostValidationRules
+    return this._middleware.changeForumPostValidationRules;
   }
 }

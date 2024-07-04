@@ -1,8 +1,7 @@
-import { News, INews } from "../../models/news/newsModel";
-import { INewsRepository } from "./INewsRepository";
+import { News, INews } from '../../models/news/newsModel';
+import { INewsRepository } from './INewsRepository';
 
 export class NewsRepository implements INewsRepository {
-  
   async deleteAllNews(): Promise<void> {
     try {
       await News.deleteMany({});

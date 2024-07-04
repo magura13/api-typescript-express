@@ -14,11 +14,11 @@ export class CommentValidationMiddleware {
     return this._validationRules.commentValidationRules;
   }
 
-  public get getCommentRemovalValidationRules () {
+  public get getCommentRemovalValidationRules() {
     return this._validationRules.commentRemovalValidationRules;
   }
 
-  public get getCommentChangeValidationRules () {
+  public get getCommentChangeValidationRules() {
     return this._validationRules.commentChangeValidationRules;
   }
 

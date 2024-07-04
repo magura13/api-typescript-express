@@ -1,7 +1,7 @@
 interface IComment {
-    commentId:string;
-    userName:string;
-    userId:string;
-    message:string;
-    isActive:boolean;
+  commentId: string;
+  userName: string;
+  userId: string;
+  message: string;
+  isActive: boolean;
 }
