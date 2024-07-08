@@ -19,7 +19,7 @@ const dbConnection = DbConnection.getInstance();
 const corsOptions = {
   origin: ['http://localhost:3000', 'https://buglifedev-react.vercel.app'],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
