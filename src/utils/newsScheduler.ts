@@ -13,9 +13,11 @@ const fetchNews = async () => {
     date.setDate(date.getDate() - 1);
     const formattedDate = date.toISOString().split('T')[0];
 
+    const query = 'technology OR programming';
+
     const response = await axios.get('https://newsapi.org/v2/everything', {
       params: {
-        q: 'technology',
+        q: query,
         from: formattedDate,
         apiKey: process.env.NEWS_API_KEY,
         pageSize: 25,
